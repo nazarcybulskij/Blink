@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
+import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
 
 
 /**
@@ -61,12 +63,8 @@ import nazar.cybulskij.blinkr.fragment.ContentFragment;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends Activity {
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
-
-    private String[] mPlanetTitles;
+public class MainActivity extends Activity implements  NavigationDrawerSettingsFragment.NavigationDrawerCallbacks {
+    private NavigationDrawerSettingsFragment mNavigationDrawerSettingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,60 +77,32 @@ public class MainActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mPlanetTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mNavigationDrawerSettingsFragment = (NavigationDrawerSettingsFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer_left);
 
 
 
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
-                ) {
-            public void onDrawerClosed(View view) {
-
-              ; // creates call to onPrepareOptionsMenu()
-            }
-
-            public void onDrawerOpened(View drawerView) {
+        // Set up the drawer.
+        mNavigationDrawerSettingsFragment.setUp(
+                R.id.navigation_drawer_left,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
 
 
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if (savedInstanceState == null) {
-            selectItem(0);
-        }
+        DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
+
+        drawer.closeDrawer(Gravity.LEFT);
+
+
+
+
     }
 
+    @Override
+    public void onNavigationDrawerItemSelected(int group, int childr) {
 
 
 
-
-
-    /* The click listner for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
-    private void selectItem(int position) {
-        // update the main content by replacing fragments
         Fragment fragment = new ContentFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -140,10 +110,13 @@ public class MainActivity extends Activity {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-        // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mDrawerList);
+
+
+
+
     }
+
+
 
 
 
@@ -156,14 +129,14 @@ public class MainActivity extends Activity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
+
     }
 
 
