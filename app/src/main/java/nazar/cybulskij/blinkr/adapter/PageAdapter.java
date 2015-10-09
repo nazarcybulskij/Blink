@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 
-;import nazar.cybulskij.blinkr.fragment.PlaceholderFragment;
+;import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
 
 
 /**
@@ -20,10 +20,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putInt(PlaceholderFragment.EXTRA_POSITION, position + 1);
         Fragment fragment;
 
-       fragment = new PlaceholderFragment();
+        fragment = new MessagesListFragment();
         fragment.setArguments(bundle);
 
 
