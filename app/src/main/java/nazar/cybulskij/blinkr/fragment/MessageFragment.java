@@ -39,6 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
+import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.CommentAdapter;
 import nazar.cybulskij.blinkr.events.FeedEvent;
@@ -98,6 +99,13 @@ public class MessageFragment extends Fragment {
         ButterKnife.bind(this, view);
         return view;
     }
+
+
+    @OnClick(R.id.left_icon)
+    public void LeftIconClick(){
+        getActivity().onBackPressed();
+    }
+
 
 
 

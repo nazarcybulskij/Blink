@@ -32,6 +32,7 @@ import com.parse.ParseUser;
 import java.lang.reflect.Field;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
@@ -108,6 +109,7 @@ public class MyPostFragment extends ListFragment {
                 EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapter.getItem(position)));
 
 
+
             }
         });
 
@@ -138,11 +140,13 @@ public class MyPostFragment extends ListFragment {
             mListview.setAdapter(mFeedAdapter);
         }
 
-
-
-
-
     }
+
+    @OnClick(R.id.left_icon)
+    public void LeftIconClick(){
+        ((MainActivity)getActivity()).openDrawer();
+    }
+
 
 
     @Override
@@ -159,10 +163,7 @@ public class MyPostFragment extends ListFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-
     }
-
 
     /*
    * Set up a query to update the list view

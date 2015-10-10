@@ -47,7 +47,14 @@ public  class MessagesListFragment extends Fragment {
 
     @Bind(R.id.list)
     ListView mListview;
-    FeedAdapter mFeedAdapter;
+
+
+    FeedAdapter mFeedAdapterNerby;
+
+    FeedAdapter mFeedAdapterRecent;
+
+
+
     MessagesEnum state = MessagesEnum.NEABY;
     private final String LIST_VIEW_INSTANCE_STATE_KEY = "LIST_VIEW_INSTANCE_STATE_KEY";
     Parcelable mListInstanceState;
@@ -87,8 +94,10 @@ public  class MessagesListFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.one) {
                     state = MessagesEnum.NEABY;
+                    mListview.setAdapter(mFeedAdapterNerby);
                 } else {
                     state = MessagesEnum.RECENT;
+                    mListview.setAdapter(mFeedAdapterRecent);
                 }
                 doListQuery();
             }
@@ -122,22 +131,18 @@ public  class MessagesListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        final RealmResults<Message> users = realm.where(Message.class).findAll();
-//        users.sort("id", RealmResults.SORT_ORDER_DESCENDING);
-//        mAdapter = new MessageAdapter(getActivity(),users,true);
 
         if (mListview.getHeaderViewsCount() == 0) {
             View header = View.inflate(getActivity(), R.layout.header_layout, null);
             mListview.addHeaderView(header);
         }
 
-        //mListview.setAdapter(mAdapter);
 
 
 
 
         // Set up a customized query
-        ParseQueryAdapter.QueryFactory<Feed> factory =
+        ParseQueryAdapter.QueryFactory<Feed> factorynerby =
                 new ParseQueryAdapter.QueryFactory<Feed>() {
                     public ParseQuery<Feed> create() {
                         MainActivity activity = (MainActivity) getActivity();
@@ -147,8 +152,7 @@ public  class MessagesListFragment extends Fragment {
                         // Create the map Parse query
                         ParseQuery<Feed> query = Feed.getQuery();
                         // Set up additional query filters
-                        if (state == MessagesEnum.NEABY)
-                            query.whereWithinMiles("location", myPoint, 15.0);
+                         query.whereWithinMiles("location", myPoint, 15.0);
                         query.whereLessThanOrEqualTo("Reports", 2);
                         query.orderByDescending("createdAt");
                         query.setLimit(MainActivity.MAX_POST_SEARCH_RESULTS);
@@ -156,16 +160,50 @@ public  class MessagesListFragment extends Fragment {
                     }
                 };
 
-        if (mFeedAdapter == null) {
-            mFeedAdapter = new FeedAdapter(getActivity(), factory);
+        // Set up a customized query
+        ParseQueryAdapter.QueryFactory<Feed> factoryrecent =
+                new ParseQueryAdapter.QueryFactory<Feed>() {
+                    public ParseQuery<Feed> create() {
+                        MainActivity activity = (MainActivity) getActivity();
+                        Location myLoc = (activity.getCurrentLocation() == null) ? activity.getLastLocation() : activity.getCurrentLocation();
+                        // If location info isn't available, clean up any existing markers
+                        final ParseGeoPoint myPoint = MainActivity.geoPointFromLocation(myLoc);
+                        // Create the map Parse query
+                        ParseQuery<Feed> query = Feed.getQuery();
+                        // Set up additional query filters
+                        query.whereLessThanOrEqualTo("Reports", 2);
+                        query.orderByDescending("createdAt");
+                        query.setLimit(MainActivity.MAX_POST_SEARCH_RESULTS);
+                        return query;
+                    }
+                };
+
+
+        if (mFeedAdapterNerby == null || mFeedAdapterRecent==null) {
+            mFeedAdapterNerby = new FeedAdapter(getActivity(), factorynerby);
             // Disable automatic loading when the adapter is attached to a view.
-            mFeedAdapter.setAutoload(false);
+            mFeedAdapterNerby.setAutoload(false);
 
             // Disable pagination, we'll manage the query limit ourselves
-            mFeedAdapter.setPaginationEnabled(false);
-            mListview.setAdapter(mFeedAdapter);
+            mFeedAdapterNerby.setPaginationEnabled(false);
+
+            mFeedAdapterRecent = new FeedAdapter(getActivity(), factoryrecent);
+            // Disable automatic loading when the adapter is attached to a view.
+            mFeedAdapterRecent.setAutoload(false);
+
+            // Disable pagination, we'll manage the query limit ourselves
+            mFeedAdapterRecent.setPaginationEnabled(false);
+
+            if (state==MessagesEnum.NEABY )
+                mListview.setAdapter(mFeedAdapterNerby);
+            else
+                mListview.setAdapter(mFeedAdapterRecent);
+
         } else {
-            mListview.setAdapter(mFeedAdapter);
+            if (state==MessagesEnum.NEABY )
+                mListview.setAdapter(mFeedAdapterNerby);
+            else
+                mListview.setAdapter(mFeedAdapterRecent);
         }
 
 
@@ -179,7 +217,11 @@ public  class MessagesListFragment extends Fragment {
                 fragmentTransaction.replace(R.id.container, MessageFragment.newInstance(), "message");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapter.getItem(position - 1)));
+                if (state==MessagesEnum.NEABY )
+                    EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapterNerby.getItem(position - 1)));
+                else
+                    EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapterRecent.getItem(position - 1)));
+
 
 
             }
@@ -212,11 +254,6 @@ public  class MessagesListFragment extends Fragment {
     }
 
 
-
-
-
-
-
     /*
    * Set up a query to update the list view
    */
@@ -227,7 +264,11 @@ public  class MessagesListFragment extends Fragment {
         if (myLoc != null) {
             // Refreshes the list view with new data based
             // usually on updated location data.
-            mFeedAdapter.loadObjects();
+            if (state==MessagesEnum.NEABY )
+                mFeedAdapterNerby.loadObjects();
+            else
+                mFeedAdapterRecent.loadObjects();
+
         }
     }
 }

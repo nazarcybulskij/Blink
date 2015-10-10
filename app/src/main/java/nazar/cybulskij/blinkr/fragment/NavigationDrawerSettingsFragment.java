@@ -168,7 +168,9 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
     @OnClick(R.id.rigth_icon)
     public  void RigthIconClick(){
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
+        selectItem(-1,0);
+
+        //mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
 
     /**
