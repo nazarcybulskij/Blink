@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
@@ -23,6 +24,7 @@ import com.parse.ParseQueryAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import info.hoang8f.android.segmented.SegmentedGroup;
 import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.FeedAdapter;
@@ -68,6 +70,22 @@ public  class MessagesListFragment extends Fragment {
         setRetainInstance(true);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
+
+
+        SegmentedGroup segmented = (SegmentedGroup) rootView.findViewById(R.id.segmented);
+        segmented.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.one) {
+                    state = MessagesEnum.NEABY;
+                } else {
+                    state = MessagesEnum.RECENT;
+                }
+                doListQuery();
+            }
+        });
+
+
 
         return rootView;
     }

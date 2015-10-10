@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/gray">
 
+    <include layout="@layout/toolbar_add_message">
+
+    </include>
+
+
+
     <EditText
         android:id="@+id/plate"
         android:layout_width="fill_parent"
