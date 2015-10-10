@@ -40,7 +40,7 @@ public class ContentFragment  extends Fragment {
 
 
         mAdapter = new PageAdapter(getFragmentManager());
-        mPager = (ViewPager) rootView.findViewById(R.id.container);
+        mPager = (ViewPager) rootView.findViewById(R.id.container_view_pager);
         mPager.setAdapter(mAdapter);
         mPager.setCurrentItem(selectedPage);
 

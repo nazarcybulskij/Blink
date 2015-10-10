@@ -228,6 +228,16 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        }
+        else {
+            getFragmentManager().popBackStack();
+        }
+    }
+
 
     /*
 * Called when the Activity is no longer visible at all. Stop updates and disconnect.

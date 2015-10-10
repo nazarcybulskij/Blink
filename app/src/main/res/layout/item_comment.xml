@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="6">
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        android:layout_weight="1"
+        android:text="gfchgf g dfgfdg  fdgdf g dfg df  fdg dfg d fd gdf gffgd   df gdfg d"/>
+
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/time"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_gravity="center"
+            android:text="time"
+            android:textStyle="bold"
+            android:layout_weight="5"/>
+
+
+
+
+
+</LinearLayout>

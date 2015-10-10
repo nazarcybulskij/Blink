@@ -5,6 +5,8 @@ package nazar.cybulskij.blinkr.fragment;
  */
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -24,10 +26,12 @@ import com.parse.ParseQueryAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.FeedAdapter;
+import nazar.cybulskij.blinkr.events.FeedEvent;
 import nazar.cybulskij.blinkr.model.Feed;
 import nazar.cybulskij.blinkr.model.MessagesEnum;
 
@@ -113,20 +117,6 @@ public  class MessagesListFragment extends Fragment {
         //mListview.setAdapter(mAdapter);
 
 
-        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.container, MessageFragment.newInstance(), "message");
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-//                EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapter.getItem(position - 1)));
-
-
-            }
-        });
 
 
         // Set up a customized query
@@ -160,6 +150,23 @@ public  class MessagesListFragment extends Fragment {
         } else {
             mListview.setAdapter(mFeedAdapter);
         }
+
+
+
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, MessageFragment.newInstance(), "message");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapter.getItem(position - 1)));
+
+
+            }
+        });
 
 
         if (mListInstanceState != null) {

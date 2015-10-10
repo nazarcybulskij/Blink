@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        android:text="gfchgf g dfgfdg  fdgdf g dfg df  fdg dfg d fd gdf gffgd   df gdfg d"/>
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+
+
+
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="19sp"
+                android:gravity="center"
+                android:text="12-wrw45353"
+                />
+
+            <RatingBar
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:rating="1"
+                android:id="@+id/ratingBar"
+                style="@style/foodRatingBarSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:supportsRtl="true"
+                />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/count_comment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="2 Comments"
+            android:textSize="21sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_weight="4"/>
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/time"
+            android:layout_gravity="center"/>
+
+
+
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_gravity="center"
+            android:text="time"
+            android:textStyle="bold"
+            android:layout_weight="6"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
