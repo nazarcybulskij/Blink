@@ -49,6 +49,7 @@ import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
 import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
+import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
 
 
 /**
@@ -139,6 +140,16 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
     private Location currentLocation;
 
     private boolean hasSetUpInitialLocation;
+
+    public OnChangedLocationListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnChangedLocationListener listener) {
+        this.listener = listener;
+    }
+
+    OnChangedLocationListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -424,6 +435,9 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
     public void onConnected(Bundle bundle) {
         Log.i(TAG, "Connected to location services");
         currentLocation = getLocation();
+        if (listener!=null)
+            listener.onChange();
+
         startPeriodicUpdates();
     }
 
@@ -442,6 +456,8 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             return;
         }
         lastLocation = location;
+        if (listener!=null)
+            listener.onChange();
         LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         if (!hasSetUpInitialLocation) {
             // Zoom to the current location.

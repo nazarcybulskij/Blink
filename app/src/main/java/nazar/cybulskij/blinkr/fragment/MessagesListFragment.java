@@ -7,9 +7,6 @@ package nazar.cybulskij.blinkr.fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -17,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -25,8 +21,6 @@ import android.widget.RadioGroup;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-
-import java.lang.reflect.Field;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,13 +31,14 @@ import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.FeedAdapter;
 import nazar.cybulskij.blinkr.events.FeedEvent;
+import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
 import nazar.cybulskij.blinkr.model.Feed;
 import nazar.cybulskij.blinkr.model.MessagesEnum;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public  class MessagesListFragment extends Fragment {
+public  class MessagesListFragment extends Fragment implements OnChangedLocationListener {
 
     @Bind(R.id.list)
     ListView mListview;
@@ -102,6 +97,7 @@ public  class MessagesListFragment extends Fragment {
                 doListQuery();
             }
         });
+        ((MainActivity)getActivity()).setListener(this);
 
 
 
@@ -200,12 +196,18 @@ public  class MessagesListFragment extends Fragment {
                 mListview.setAdapter(mFeedAdapterRecent);
 
         } else {
-            if (state==MessagesEnum.NEABY )
+            if (state==MessagesEnum.NEABY ) {
                 mListview.setAdapter(mFeedAdapterNerby);
-            else
+            }
+            else{
                 mListview.setAdapter(mFeedAdapterRecent);
+
+            }
+
+
         }
 
+        doListQuery();
 
 
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -217,11 +219,10 @@ public  class MessagesListFragment extends Fragment {
                 fragmentTransaction.replace(R.id.container, MessageFragment.newInstance(), "message");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                if (state==MessagesEnum.NEABY )
+                if (state == MessagesEnum.NEABY)
                     EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapterNerby.getItem(position - 1)));
                 else
                     EventBus.getDefault().postSticky(new FeedEvent(mFeedAdapterRecent.getItem(position - 1)));
-
 
 
             }
@@ -270,5 +271,12 @@ public  class MessagesListFragment extends Fragment {
                 mFeedAdapterRecent.loadObjects();
 
         }
+    }
+
+
+
+    @Override
+    public void onChange() {
+        doListQuery();
     }
 }
