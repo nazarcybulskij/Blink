@@ -47,6 +47,7 @@ import com.parse.ParseGeoPoint;
 
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
+import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
 
 
@@ -186,8 +187,12 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
                 .build();
 
 
+    }
 
 
+    public  void openDrawer(){
+        DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
+        drawer.openDrawer(Gravity.LEFT);
 
     }
 
@@ -196,12 +201,24 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
 
 
 
-        Fragment fragment = new ContentFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        if (group == 0 && childr==0){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, MyPostFragment.newInstance(childr + 1),"mymessages")
+                    .commit();
+
+
+        }else{
+            Fragment fragment = new ContentFragment();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        }
+
 
     }
 

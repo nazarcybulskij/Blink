@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/post3x"/>
+        android:src="@drawable/post3x" />
 
 
     <TextView
@@ -29,6 +29,38 @@
         android:text="title"
         android:layout_weight="2"
         android:gravity="center" />
+
+    <!--<info.hoang8f.android.segmented.SegmentedGroup-->
+    <!--android:id="@+id/segmented"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--segmentedgroup:sc_border_width="1dp"-->
+    <!--segmentedgroup:sc_corner_radius="10dp"-->
+    <!--segmentedgroup:sc_tint_color="#FFFFFF"-->
+    <!--segmentedgroup:sc_checked_text_color="#000000"-->
+    <!-->-->
+
+    <!--<RadioButton-->
+    <!--android:id="@+id/one"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="NEABY"-->
+    <!--android:checked="true"-->
+    <!--style="@style/RadioButton" />-->
+
+    <!--<RadioButton-->
+    <!--android:id="@+id/two"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="RECENT"-->
+    <!--style="@style/RadioButton" />-->
+    <!--</info.hoang8f.android.segmented.SegmentedGroup>-->
+
 
 
     <ImageView

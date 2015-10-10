@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +47,6 @@ public class NewMessageFragment extends Fragment {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
 
-    /**
-     * Helper component that ties the action bar to the navigation drawer.
-     */
-    private ActionBarDrawerToggle mDrawerToggle;
-
-    private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -90,8 +85,7 @@ public class NewMessageFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -120,8 +114,6 @@ public class NewMessageFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Forward the new configuration the drawer toggle component.
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
 
@@ -141,8 +133,17 @@ public class NewMessageFragment extends Fragment {
 
 
         String plate = mPlate.getText().toString();
+        mPlate.setText("");
         String text = mTextMessage.getText().toString();
+        mTextMessage.setText("");
         float rate = mRatting.getRating();
+
+        if (plate.trim().length()<5){
+            return;
+        }
+        if (text.trim().equals("")){
+            return;
+        }
 
 
 
@@ -173,10 +174,18 @@ public class NewMessageFragment extends Fragment {
             fragment.doListQuery();
         }
 
+        LeftIconClick();
 
 
 
 
 
+
+    }
+
+    @OnClick(R.id.left_icon)
+    public void LeftIconClick(){
+        ViewPager vp=(ViewPager) getActivity().findViewById(R.id.container_view_pager);
+        vp.setCurrentItem(vp.getCurrentItem()-1);
     }
 }

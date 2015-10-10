@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
+import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
 import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.PageAdapter;
+import nazar.cybulskij.blinkr.view.ViewPagerCustomDuration;
 
 
 /**
@@ -37,14 +40,12 @@ public class ContentFragment  extends Fragment {
             selectedPage = savedInstanceState.getInt(KEY_SELECTED_PAGE);
         }
 
-
-
         mAdapter = new PageAdapter(getFragmentManager());
         mPager = (ViewPager) rootView.findViewById(R.id.container_view_pager);
         mPager.setAdapter(mAdapter);
         mPager.setCurrentItem(selectedPage);
 
-        mPager.setPageTransformer(true, new DepthPageTransformer());
+        mPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
 
 
 

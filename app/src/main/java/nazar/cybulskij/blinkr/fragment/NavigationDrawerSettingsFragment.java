@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,8 @@ import android.widget.TextView;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.DrawerAdapter;
 
@@ -100,6 +103,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v= inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        ButterKnife.bind(this,v);
         mDrawerListView = (ExpandableListView)v.findViewById(R.id.list);
 
         //Создаем набор данных для адаптера
@@ -160,6 +164,11 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
+    }
+
+    @OnClick(R.id.rigth_icon)
+    public  void RigthIconClick(){
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
 
     /**
