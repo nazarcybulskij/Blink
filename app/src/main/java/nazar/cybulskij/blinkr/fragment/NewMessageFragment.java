@@ -1,33 +1,20 @@
 package nazar.cybulskij.blinkr.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.parse.ParseACL;
 import com.parse.ParseUser;
-
-import java.lang.reflect.Field;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -110,7 +97,7 @@ public class NewMessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_navigation_drawer_new_message, container, false);
+        View view  = inflater.inflate(R.layout.fragment_new_message, container, false);
         ButterKnife.bind(this, view);
         mTextMessage.setMaxTextSize(200);
         return view;

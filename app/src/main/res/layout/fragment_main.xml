@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity$PlaceholderFragment">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_messages_fagment">
+
+    </include>
+
 
 
     <!--<EditText-->
@@ -21,6 +27,7 @@
 
     <ListView
         android:id="@+id/list"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:scrollbars="none"
         android:layout_height="wrap_content">
