@@ -98,8 +98,9 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ExpandableListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+
+        View v= inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mDrawerListView = (ExpandableListView)v.findViewById(R.id.list);
 
         //Создаем набор данных для адаптера
         ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();
@@ -152,7 +153,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        return v;
     }
 
 
