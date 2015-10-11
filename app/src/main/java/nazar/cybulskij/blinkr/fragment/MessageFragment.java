@@ -189,48 +189,63 @@ public class MessageFragment extends Fragment {
         comment.setUser(ParseUser.getCurrentUser());
         comment.setFeed(feed);
         comment.setCommentText(text);
+
         comment.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e == null) {
+                if (e==null){
                     ParseQuery query = ParseQuery.getQuery(Feed.class);
-                    query.getInBackground(comment.getObjectId(), new GetCallback() {
+                    query.getInBackground(feed.getObjectId(), new GetCallback() {
                         @Override
                         public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
-                                ParseQuery query = ParseInstallation.getQuery();
-                                query.whereEqualTo("owner", comment.getUser().getObjectId());
-                                query.whereEqualTo("deviceType", "android");
 
-                                JSONObject data = new JSONObject();
-                                try {
-                                    data.put("postid", comment.getObjectId());
-                                    data.put("badge", "Increment");
-                                    data.put("alert", "comment");
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-
-
-                                ParsePush push = new ParsePush();
-                                push.setQuery(query);
-                                push.setData(data);
-                                push.sendInBackground();
-                            }
                         }
 
                         @Override
                         public void done(Object o, Throwable throwable) {
+                            feed.increment("CommentsNumber");
+                            feed.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e==null){
+                                        ParseQuery query = ParseInstallation.getQuery();
+                                        query.whereEqualTo("owner", comment.getUser().getObjectId());
+                                        query.whereEqualTo("deviceType", "android");
+
+                                        JSONObject data = new JSONObject();
+                                        try {
+                                            data.put("postid", comment.getObjectId());
+                                            data.put("badge", "Increment");
+                                            data.put("alert", "comment");
+                                        } catch (JSONException e1) {
+                                            e1.printStackTrace();
+                                        }
+
+
+                                        ParsePush push = new ParsePush();
+                                        push.setQuery(query);
+                                        push.setData(data);
+                                        push.sendInBackground();
+                                        mTextSend.setText("");
+
+                                        fullinfo();
+                                    }
+                                }
+                            });
 
                         }
                     });
-                    mTextSend.setText("");
-                    fullinfo();
-                    comment.increment("CommentsNumber");
-                }
 
+                }
             }
         });
+
+
+
+
+
+
+
 
 
     }
