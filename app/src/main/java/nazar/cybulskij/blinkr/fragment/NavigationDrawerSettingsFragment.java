@@ -2,6 +2,7 @@ package nazar.cybulskij.blinkr.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -150,6 +151,24 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         });
 
         View footer = View.inflate(getActivity(), R.layout.footer_drawer, null);
+        footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* Create the Intent */
+                final Intent emailIntent = new Intent(android.content.Intent.ACTION_SENDTO);
+
+                /* Fill it with Data */
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@blinkrapp.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+
+                /* Send it off to the Activity-Chooser */
+                getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            }
+        });
+
+
         mDrawerListView.addFooterView(footer);
 
 

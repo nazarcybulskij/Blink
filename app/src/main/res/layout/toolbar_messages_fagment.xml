@@ -11,12 +11,13 @@
 
         <ImageView
             android:id="@+id/left_icon"
-            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/segmented"
             android:layout_gravity="center"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/post3x"/>
+            android:paddingLeft="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/gear3x"/>
 
 
         <!--<TextView-->
@@ -71,7 +72,9 @@
             android:layout_gravity="center"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/post3x"/>
+            android:paddingRight="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back_arrow3x"/>
 
 
 

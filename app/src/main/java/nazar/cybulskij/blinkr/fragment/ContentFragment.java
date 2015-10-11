@@ -51,4 +51,10 @@ public class ContentFragment  extends Fragment {
 
         return rootView;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mPager.onSaveInstanceState();
+    }
 }

@@ -247,6 +247,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             startActivity(browserIntent);
             return;
         }
+
         if (group == 2 && childr==3){
             //privace
             String url = "www.blinkrapp.co/privacy";
@@ -273,11 +274,13 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
                     .replace(R.id.content_frame, MyCommentFragment.newInstance(childr + 1),"mycomments")
                     .commit();
         }else{
+
             Fragment fragment = new ContentFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
+
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,"content").commit();
 
         }
 

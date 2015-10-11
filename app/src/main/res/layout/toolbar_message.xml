@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/post3x" />
+        android:src="@drawable/back_button3x" />
 
 
     <TextView
