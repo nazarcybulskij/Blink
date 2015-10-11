@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -221,6 +222,48 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
                     .commit();
             return;
         }
+
+
+
+        if (group == 1 && childr==1){
+            //rate  Blinckr
+            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
+            return;
+        }
+
+        if (group == 2 && childr==2){
+            //terms
+            String url = "www.blinkrapp.co/tos";
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://" + url;
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+            return;
+        }
+        if (group == 2 && childr==3){
+            //privace
+            String url = "www.blinkrapp.co/privacy";
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://" + url;
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+
+            return;
+        }
+
+
+
+
+
+
 
 
 
