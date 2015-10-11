@@ -47,6 +47,7 @@ import com.parse.ParseGeoPoint;
 
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
+import nazar.cybulskij.blinkr.fragment.MyCommentFragment;
 import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
 import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
@@ -218,13 +219,20 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, MyPostFragment.newInstance(childr + 1),"mymessages")
                     .commit();
+            return;
+        }
 
 
+
+        if (group == 0 && childr==1){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, MyCommentFragment.newInstance(childr + 1),"mycomments")
+                    .commit();
         }else{
             Fragment fragment = new ContentFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
-
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 

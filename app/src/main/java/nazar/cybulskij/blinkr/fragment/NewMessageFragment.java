@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 
 import android.support.v4.view.ViewPager;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,8 @@ public class NewMessageFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
+
+
         // Select either the default item (0) or the last selected item.
 
     }
@@ -94,6 +97,7 @@ public class NewMessageFragment extends Fragment {
         View view  = inflater.inflate(R.layout.fragment_new_message, container, false);
         ButterKnife.bind(this, view);
         mTextMessage.setMaxTextSize(200);
+        mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         return view;
     }
 

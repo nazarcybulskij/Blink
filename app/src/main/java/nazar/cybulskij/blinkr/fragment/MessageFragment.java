@@ -182,6 +182,9 @@ public class MessageFragment extends Fragment {
     @OnClick(R.id.btn_post)
     public void onPostComment(View v){
         String text = mTextSend.getText().toString();
+        if (text.trim().equals("")){
+            return;
+        }
         final Comment comment = new Comment();
         comment.setUser(ParseUser.getCurrentUser());
         comment.setFeed(feed);
