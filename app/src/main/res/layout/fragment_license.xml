@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <include layout="@layout/toolbar_add_message">
+    <include layout="@layout/toolbar_license">
 
     </include>
 

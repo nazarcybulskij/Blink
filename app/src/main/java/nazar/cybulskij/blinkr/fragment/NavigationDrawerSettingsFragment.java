@@ -2,6 +2,7 @@ package nazar.cybulskij.blinkr.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -25,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+
+import com.cocosw.bottomsheet.BottomSheet;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -145,7 +148,11 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         mDrawerListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                selectItem(groupPosition,childPosition);
+                if (groupPosition==1 && childPosition==0){
+                    showSheet();
+                }else {
+                    selectItem(groupPosition, childPosition);
+                }
                 return false;
             }
         });
@@ -177,6 +184,20 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return v;
+    }
+
+
+    public void showSheet(){
+        new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
+                .title("New")
+                .grid() // <-- important part
+                .sheet(R.menu.menu_bottom_sheet)
+                .listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
     }
 
 
@@ -272,6 +293,9 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
 
         mCurrentSelectedPosition = childr;
+
+
+
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(childr, true);
         }
