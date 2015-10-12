@@ -142,6 +142,8 @@ public class MyPostFragment extends ListFragment {
         }
 
 
+
+
     }
 
     @OnClick(R.id.left_icon)
@@ -154,6 +156,7 @@ public class MyPostFragment extends ListFragment {
     @Override
     public void onStart() {
         super.onStart();
+        mFeedAdapter.notifyDataSetChanged();
     }
 
 

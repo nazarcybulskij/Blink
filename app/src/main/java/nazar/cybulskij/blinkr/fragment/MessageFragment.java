@@ -107,14 +107,17 @@ public class MessageFragment extends Fragment {
     }
 
 
-
+    View header;
 
 
 
     private void fullinfo(){
+
         if (mCommentsList.getHeaderViewsCount()==0) {
-            View header = View.inflate(getActivity(), R.layout.header_comment_fragment, null);
+            header = View.inflate(getActivity(), R.layout.header_comment_fragment, null);
             mCommentsList.addHeaderView(header);
+        }
+
             ViewHolder holder;
             holder = new ViewHolder();
             holder.tvText= (TextView) header.findViewById(R.id.text);
@@ -154,7 +157,10 @@ public class MessageFragment extends Fragment {
                 holder.tvCountsComment.setVisibility(View.VISIBLE);
                 holder.tvCountsComment.setText(feed.getCommentsNumber()+" Comments");
             }
-        }
+
+
+
+
         if (mCommentAdapter == null){
             mCommentAdapter = new CommentAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<Comment>() {
                 @Override
@@ -239,13 +245,6 @@ public class MessageFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
-
-
 
 
     }

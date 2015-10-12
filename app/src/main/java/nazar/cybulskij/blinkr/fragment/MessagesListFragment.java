@@ -240,6 +240,8 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
     @Override
     public void onStart() {
         super.onStart();
+        mFeedAdapterRecent.notifyDataSetChanged();
+        mFeedAdapterNerby.notifyDataSetChanged();
     }
 
     @Override

@@ -46,6 +46,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseGeoPoint;
 
+import nazar.cybulskij.blinkr.fragment.AboutFragment;
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
 import nazar.cybulskij.blinkr.fragment.MyCommentFragment;
@@ -245,6 +246,14 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
 
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(browserIntent);
+            return;
+        }
+
+        if (group == 2 && childr==0){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, AboutFragment.newInstance(),"about")
+                    .commit();
             return;
         }
 

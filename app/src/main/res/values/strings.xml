@@ -17,6 +17,17 @@
 <resources>
     <string name="app_name">Blinkr</string>
     <string name="stub"></string>
+    <string name="about_text">Blinkr allows anyone to connect and message drivers around them using only the drivers license plate number.\n\n
+
+It acts like a bulletin board for your area by showing the most recent messages from people around you to drivers around you.\n\n
+
+Post messages to help drivers, ask questions, or just speak your mind and hopefully make new friends. To post a message, you simply enter the license plate number and you are
+ready to go.\n\n
+
+</string>
+
+    <string name="copirate">© 2015 Blinkr. All Rights Reserved.</string>
+
     <string name="parseAppID">bgdqHdHU1Zpc9sCFKeQ0IAU0bgz9UDXpNfXu549Q</string>
     <string name="parseClientID">vmXiZkOBveJhHjgO7ZhDpVyAkaoc2h08tvvX4AV2</string>
 
