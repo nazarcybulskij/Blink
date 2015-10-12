@@ -52,6 +52,7 @@ import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
 import nazar.cybulskij.blinkr.fragment.MyCommentFragment;
 import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
+import nazar.cybulskij.blinkr.fragment.RulesFragment;
 import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
 
 
@@ -256,6 +257,15 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
                     .commit();
             return;
         }
+
+        if (group == 2 && childr==1){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, RulesFragment.newInstance(),"rules")
+                    .commit();
+            return;
+        }
+
 
         if (group == 2 && childr==3){
             //privace

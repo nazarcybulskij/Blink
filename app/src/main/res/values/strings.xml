@@ -28,6 +28,29 @@ ready to go.\n\n
 
     <string name="copirate">© 2015 Blinkr. All Rights Reserved.</string>
 
+    <string name="rules_title">Rules and Regulations</string>
+    <string name="rules_list">
+        1.  DON’T TEXT AND DRIVE.\n\n
+
+        2.  IF USING BLINKR WHILE IN A VEHICLE, YOU MUST BE A PASSENGER AND NOT THE DRIVER.\n\n
+
+        3.  BE NICE AND BE KIND.\n\n
+
+        4.  DO NOT BULLY OR SPECIFICALLY TARGET ANYONE VIA BLINKR.\n\n
+
+        5.  DO NOT POST PERSONAL IDENTIFYING INFORMATION ON BLINKR.\n\n
+
+        6.  KEEP IT LOCAL.\n\n
+
+        7.  DON’T BE A JERK.\n\n
+
+        8.  DO NOT USE BLINKR TO INSIGHT VIOLENCE AGAINST ANYONE.\n\n
+
+        9.  DO NOT BREAK THE LAW.\n\n
+
+        10. ENJOY BLINKING.\n\n
+    </string>
+
     <string name="parseAppID">bgdqHdHU1Zpc9sCFKeQ0IAU0bgz9UDXpNfXu549Q</string>
     <string name="parseClientID">vmXiZkOBveJhHjgO7ZhDpVyAkaoc2h08tvvX4AV2</string>
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
+import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
 import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 
 import nazar.cybulskij.blinkr.R;
@@ -45,7 +46,7 @@ public class ContentFragment  extends Fragment {
         mPager.setAdapter(mAdapter);
         mPager.setCurrentItem(selectedPage);
 
-        mPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
+        mPager.setPageTransformer(true, new DefaultTransformer());
 
 
 
