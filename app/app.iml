@@ -155,5 +155,6 @@
     <orderEntry type="library" exported="" name="play-services-maps-7.8.0" level="project" />
     <orderEntry type="module" module-name="ParseUI-Login" exported="" />
     <orderEntry type="module" module-name="ParseUI-Widget" exported="" />
+    <orderEntry type="module" module-name="lib_phone" exported="" />
   </component>
 </module>

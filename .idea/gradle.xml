@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/ParseUI-Login" />
             <option value="$PROJECT_DIR$/ParseUI-Widget" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/lib_phone" />
           </set>
         </option>
       </GradleProjectSettings>

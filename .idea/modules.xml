@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/ParseUI-Login/ParseUI-Login.iml" filepath="$PROJECT_DIR$/ParseUI-Login/ParseUI-Login.iml" />
       <module fileurl="file://$PROJECT_DIR$/ParseUI-Widget/ParseUI-Widget.iml" filepath="$PROJECT_DIR$/ParseUI-Widget/ParseUI-Widget.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib_phone/lib_phone.iml" filepath="$PROJECT_DIR$/lib_phone/lib_phone.iml" />
     </modules>
   </component>
 </project>

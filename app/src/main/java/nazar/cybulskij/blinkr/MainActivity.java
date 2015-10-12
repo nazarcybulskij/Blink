@@ -48,6 +48,7 @@ import com.parse.ParseGeoPoint;
 
 import nazar.cybulskij.blinkr.fragment.AboutFragment;
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
+import nazar.cybulskij.blinkr.fragment.LicenseFragment;
 import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
 import nazar.cybulskij.blinkr.fragment.MyCommentFragment;
 import nazar.cybulskij.blinkr.fragment.MyPostFragment;
@@ -225,6 +226,14 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             return;
         }
 
+
+        if (group == 0 && childr==2){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, LicenseFragment.newInstance(),"license")
+                    .commit();
+            return;
+        }
 
 
         if (group == 1 && childr==1){
