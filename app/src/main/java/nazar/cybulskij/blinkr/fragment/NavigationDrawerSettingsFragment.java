@@ -2,9 +2,13 @@ package nazar.cybulskij.blinkr.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -31,6 +35,7 @@ import com.cocosw.bottomsheet.BottomSheet;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -195,6 +200,24 @@ public class NavigationDrawerSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        switch (which) {
+                            case R.id.Email:
+                                shareEmail();
+                                break;
+                            case R.id.Facebook:
+                                shareFacebook();
+                                break;
+                            case R.id.Twitter:
+                                shareTwitter();
+
+                                break;
+                            case R.id.Whatsapp:
+                                shareWhatsapp();
+                                break;
+
+
+                        }
+
                     }
                 }).show();
 
@@ -203,6 +226,98 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
 
     }
+
+    private  void shareEmail(){
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SENDTO);
+
+                /* Fill it with Data */
+        emailIntent.setType("message/rfc822");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+
+                /* Send it off to the Activity-Chooser */
+        getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    private  void shareFacebook(){
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "EXTRA_TEXT");
+        //shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList)
+        {
+            if ((app.activityInfo.name).contains("facebook"))
+            {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
+    }
+
+    private void shareTwitter(){
+
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "EXTRA_TEXT");
+        //shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList)
+        {
+            if ("com.twitter.android.PostActivity".equals(app.activityInfo.name))
+            {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
+
+    }
+
+    private  void shareWhatsapp(){
+
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("text/html");
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "EXTRA_TEXT");
+       // shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList) {
+            if ((app.activityInfo.name).contains("com.whatsapp")) {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(
+                        activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
+
+    }
+
+
+
 
 
 
