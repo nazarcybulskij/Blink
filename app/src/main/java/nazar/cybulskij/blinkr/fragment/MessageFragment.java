@@ -1,6 +1,7 @@
 package nazar.cybulskij.blinkr.fragment;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -15,10 +16,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -120,6 +124,7 @@ public class MessageFragment extends Fragment {
 
             ViewHolder holder;
             holder = new ViewHolder();
+            holder.ivShare = (ImageView) header.findViewById(R.id.share);
             holder.tvText= (TextView) header.findViewById(R.id.text);
             holder.tvName = (TextView) header.findViewById(R.id.name);
             holder.ratingBar = (RatingBar) header.findViewById(R.id.ratingBar);
@@ -145,10 +150,42 @@ public class MessageFragment extends Fragment {
                     holder.tvTime.setText(diffHours+"h");
                 }
             }else{
-                holder.tvTime.setText(diffDays+"d");
+                holder.tvTime.setText(diffDays + "d");
             }
 
             holder.tvText.setText(feed.getStatus());
+            holder.ivShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
+                            .sheet(R.menu.menu_bottom_sheet)
+                            .listener(new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    switch (which) {
+                                        case R.id.Email:
+                                           // shareEmail();
+                                            break;
+                                        case R.id.Facebook:
+                                           // shareFacebook();
+                                            break;
+                                        case R.id.Twitter:
+                                           // shareTwitter();
+
+                                            break;
+                                        case R.id.Whatsapp:
+                                            //shareWhatsapp();
+                                            break;
+
+
+                                    }
+
+                                }
+                            }).show();
+
+                }
+            });
 
 
 
@@ -174,6 +211,7 @@ public class MessageFragment extends Fragment {
         }else{
             mCommentAdapter.loadObjects();
         }
+
 
     }
 
@@ -252,7 +290,7 @@ public class MessageFragment extends Fragment {
         TextView tvText;
         TextView tvName;
         TextView tvTime;
-        TextView tvCountsComment;
+        ImageView ivShare;
         RatingBar ratingBar;
     }
 
