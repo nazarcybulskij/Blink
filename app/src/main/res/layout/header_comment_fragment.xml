@@ -58,15 +58,25 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/count_comment"
+        <!--<ImageView-->
+            <!--android:id="@+id/count_comment"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="2 Comments"-->
+            <!--android:textSize="17sp"-->
+            <!--android:textColor="@android:color/darker_gray"-->
+            <!--android:layout_weight="4"/>-->
+        <!-- -->
+        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="10dp"
             android:gravity="center"
-            android:text="2 Comments"
-            android:textSize="17sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_weight="4"/>
+            android:layout_gravity="center"
+            android:src="@drawable/more"
+            android:layout_weight="7"/>
+
+
 
         <ImageView
             android:layout_width="16dp"
