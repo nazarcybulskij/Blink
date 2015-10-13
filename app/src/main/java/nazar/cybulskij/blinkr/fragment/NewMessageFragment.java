@@ -95,7 +95,7 @@ public class NewMessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_new_message, container, false);
-        ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);;
         mTextMessage.setMaxTextSize(200);
         mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         return view;

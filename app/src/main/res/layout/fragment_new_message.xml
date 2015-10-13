@@ -30,6 +30,7 @@
         android:inputType="textCapCharacters"
         android:textColorHint="@color/ligthgray"
         android:hint="License Rlate # "
+        android:textColor="@color/orange"
         mask:mask="##-########"
         />
 
