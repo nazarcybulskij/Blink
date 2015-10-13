@@ -21,8 +21,27 @@
         android:paddingRight="16dp"
         android:layout_width="fill_parent"
         android:scrollbars="none"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="50dp">
     </ListView>
+
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/list"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:scaleType="fitXY"
+        android:background="@color/gray"
+        android:src="?android:attr/listDivider" />
+
+
+
+
 
     <RelativeLayout
         android:id="@+id/InnerRelativeLayout"
