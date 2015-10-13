@@ -1,8 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/share" android:title="share" android:icon="@drawable/icon"/>
-    <item android:id="@+id/upload" android:title="upload" android:icon="@drawable/icon"/>
-    <item android:id="@+id/call" android:title="call" android:icon="@drawable/icon"/>
-    <group android:id="@+id/helpgroup">
-        <item android:id="@+id/help" android:title="help" android:icon="@drawable/icon"/>
-    </group>
+    <item android:id="@+id/Email" android:title="Email" android:icon="@drawable/message_filled_64"/>
+    <item android:id="@+id/Facebook" android:title="Facebook" android:icon="@drawable/facebook"/>
+    <item android:id="@+id/Twitter" android:title="Twitter" android:icon="@drawable/twitter_512"/>
+     <item android:id="@+id/Whatsapp" android:title="Whatsapp" android:icon="@drawable/whatsapp_64"/>
+
 </menu>

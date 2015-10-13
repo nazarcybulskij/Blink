@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mask="http://schemas.android.com/apk/res/nazar.cybulskij.blinkr"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray">
@@ -10,7 +12,9 @@
 
 
 
-    <EditText
+
+
+    <br.com.sapereaude.maskedEditText.MaskedEditText
         android:id="@+id/plate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -25,7 +29,9 @@
         android:background="@drawable/gray_bagrount"
         android:inputType="textCapCharacters"
         android:textColorHint="@color/ligthgray"
-        android:hint="License Rlate # "/>
+        android:hint="License Rlate # "
+        mask:mask="##-########"
+        />
 
 
     <nazar.cybulskij.blinkr.view.LimitedEditText

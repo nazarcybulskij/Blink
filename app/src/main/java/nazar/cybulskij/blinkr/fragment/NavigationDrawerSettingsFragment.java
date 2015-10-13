@@ -188,8 +188,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
 
     public void showSheet(){
-        new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
-                .title("New")
+       new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
                 .grid() // <-- important part
                 .sheet(R.menu.menu_bottom_sheet)
                 .listener(new DialogInterface.OnClickListener() {
@@ -198,6 +197,11 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
                     }
                 }).show();
+
+
+
+
+
     }
 
 
