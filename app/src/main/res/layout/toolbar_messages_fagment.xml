@@ -70,11 +70,11 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/segmented"
             android:layout_gravity="center"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:paddingRight="8dp"
             android:scaleType="centerInside"
-            android:src="@drawable/back_arrow3x"/>
+            android:src="@drawable/edit"/>
 
 
 
