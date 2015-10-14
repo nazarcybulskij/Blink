@@ -209,7 +209,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
+                        utils.saveFile(utils.drawableToBitmap(getResources().getDrawable(R.drawable.loading)));
 
                         switch (which) {
 
@@ -263,17 +263,20 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     }
 
     private  void shareFacebook(){
-                String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-                File filePath =  new File(filename);  //optional //internal storage
-                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-                //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
-                //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
-                shareIntent.setType("image/jpeg");
-                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
 
-                PackageManager pm = getActivity().getPackageManager();
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+
+        PackageManager pm = getActivity().getPackageManager();
                 List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
                 for (final ResolveInfo app : activityList)
                 {

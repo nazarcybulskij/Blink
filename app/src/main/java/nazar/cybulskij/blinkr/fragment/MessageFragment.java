@@ -1,14 +1,21 @@
 package nazar.cybulskij.blinkr.fragment;
 
 import android.app.Fragment;
+import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,8 +43,10 @@ import com.parse.SaveCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,6 +58,7 @@ import nazar.cybulskij.blinkr.adapter.CommentAdapter;
 import nazar.cybulskij.blinkr.events.FeedEvent;
 import nazar.cybulskij.blinkr.model.Comment;
 import nazar.cybulskij.blinkr.model.Feed;
+import nazar.cybulskij.blinkr.util.Utils;
 
 /**
  * Created by nazar on 28.09.15.
@@ -113,6 +123,8 @@ public class MessageFragment extends Fragment {
 
     View header;
 
+    Utils  utils = new Utils();
+
 
 
     private void fullinfo(){
@@ -163,19 +175,21 @@ public class MessageFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
+                                    utils.saveFile(utils.getBitmapFromView(mCommentsList));
+
                                     switch (which) {
                                         case R.id.Email:
-                                           // shareEmail();
+                                            shareEmail();
                                             break;
                                         case R.id.Facebook:
-                                           // shareFacebook();
+                                            shareFacebook();
                                             break;
                                         case R.id.Twitter:
-                                           // shareTwitter();
+                                            shareTwitter();
 
                                             break;
                                         case R.id.Whatsapp:
-                                            //shareWhatsapp();
+                                            shareWhatsapp();
                                             break;
 
 
@@ -212,6 +226,121 @@ public class MessageFragment extends Fragment {
             mCommentAdapter.loadObjects();
         }
 
+
+    }
+
+
+    private  void shareEmail(){
+
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        emailIntent.setType("image/jpeg");
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                /* Fill it with Data */
+        emailIntent.setType("message/rfc822");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+
+                /* Send it off to the Activity-Chooser */
+        getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    private  void shareFacebook(){
+
+
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList)
+        {
+            if ((app.activityInfo.name).contains("facebook"))
+            {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
+
+    }
+
+
+
+
+    private void shareTwitter(){
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList)
+        {
+            if ("com.twitter.android.PostActivity".equals(app.activityInfo.name))
+            {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
+
+    }
+
+    private  void shareWhatsapp(){
+
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
+        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+        PackageManager pm = getActivity().getPackageManager();
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList) {
+            if ((app.activityInfo.name).contains("com.whatsapp")) {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(
+                        activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
 
     }
 
