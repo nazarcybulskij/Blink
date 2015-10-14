@@ -11,12 +11,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +36,9 @@ import android.widget.TextView;
 
 import com.cocosw.bottomsheet.BottomSheet;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.DrawerAdapter;
+import nazar.cybulskij.blinkr.util.Utils;
 
 
 /**
@@ -154,6 +161,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 if (groupPosition==1 && childPosition==0){
+                    utils.saveFile(utils.getBitmapFromView(getView()));
                     showSheet();
                 }else {
                     selectItem(groupPosition, childPosition);
@@ -193,6 +201,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
 
     public void showSheet(){
+
        new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
                 .grid() // <-- important part
                 .sheet(R.menu.menu_bottom_sheet)
@@ -200,7 +209,10 @@ public class NavigationDrawerSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+
+
                         switch (which) {
+
                             case R.id.Email:
                                 shareEmail();
                                 break;
@@ -227,8 +239,18 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
     }
 
+    Utils utils= new Utils();
+
     private  void shareEmail(){
-        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SENDTO);
+
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        emailIntent.setType("image/jpeg");
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 /* Fill it with Data */
         emailIntent.setType("message/rfc822");
@@ -241,36 +263,46 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     }
 
     private  void shareFacebook(){
-        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "EXTRA_TEXT");
-        //shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+                File filePath =  new File(filename);  //optional //internal storage
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+                //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+                shareIntent.setType("image/jpeg");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        PackageManager pm = getActivity().getPackageManager();
-        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
-        for (final ResolveInfo app : activityList)
-        {
-            if ((app.activityInfo.name).contains("facebook"))
-            {
-                final ActivityInfo activity = app.activityInfo;
-                final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
-                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                shareIntent.setComponent(name);
-                getActivity().startActivity(shareIntent);
-                break;
-            }
-        }
+
+                PackageManager pm = getActivity().getPackageManager();
+                List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+                for (final ResolveInfo app : activityList)
+                {
+                    if ((app.activityInfo.name).contains("facebook"))
+                    {
+                        final ActivityInfo activity = app.activityInfo;
+                        final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                        shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        shareIntent.setComponent(name);
+                        getActivity().startActivity(shareIntent);
+                        break;
+                    }
+                }
+
     }
 
-    private void shareTwitter(){
 
+
+
+    private void shareTwitter(){
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "EXTRA_TEXT");
-        //shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
@@ -292,11 +324,15 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
     private  void shareWhatsapp(){
 
+        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
+        File filePath =  new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("text/html");
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "EXTRA_SUBJECT");
-        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "EXTRA_TEXT");
-       // shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
+        //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
+        shareIntent.setType("image/jpeg");
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
 
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
