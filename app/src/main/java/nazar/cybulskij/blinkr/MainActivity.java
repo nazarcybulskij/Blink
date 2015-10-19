@@ -28,6 +28,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -46,6 +47,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseGeoPoint;
 
+import icepick.Icepick;
 import nazar.cybulskij.blinkr.fragment.AboutFragment;
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.LicenseFragment;
@@ -55,6 +57,8 @@ import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
 import nazar.cybulskij.blinkr.fragment.RulesFragment;
 import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
+
+import icepick.Icicle;
 
 
 /**
@@ -90,6 +94,10 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
                                                         GoogleApiClient.OnConnectionFailedListener{
     private NavigationDrawerSettingsFragment mNavigationDrawerSettingsFragment;
 
+
+
+    @Icicle
+    Boolean stateDrawer=false;
     ///parse
 
     private static final String TAG = MainActivity.class.getName();
@@ -179,9 +187,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
 
 
 
-        DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
 
-        drawer.closeDrawer(Gravity.LEFT);
 
         // Create a new global location parameters object
         locationRequest = LocationRequest.create();
@@ -203,12 +209,29 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
                 .build();
 
 
+        Icepick.restoreInstanceState(this, savedInstanceState);
+
+        if (stateDrawer){
+            openDrawer();
+        }else{
+            closeDrawer();
+        }
+
+
     }
 
 
     public  void openDrawer(){
         DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
         drawer.openDrawer(Gravity.LEFT);
+        stateDrawer = true;
+
+    }
+
+    public  void closeDrawer(){
+        DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
+        drawer.closeDrawer(Gravity.LEFT);
+        stateDrawer = false;
 
     }
 
@@ -223,6 +246,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, MyPostFragment.newInstance(childr + 1),"mymessages")
                     .commit();
+            stateDrawer = false;
             return;
         }
 
@@ -232,38 +256,22 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, LicenseFragment.newInstance(),"license")
                     .commit();
+            stateDrawer = false;
             return;
         }
 
 
-        if (group == 1 && childr==1){
-            //rate  Blinckr
-            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-            try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-            }
 
-            return;
-        }
 
-        if (group == 2 && childr==2){
-            //terms
-            String url = "www.blinkrapp.co/tos";
-            if (!url.startsWith("http://") && !url.startsWith("https://"))
-                url = "http://" + url;
 
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
-            return;
-        }
+
 
         if (group == 2 && childr==0){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, AboutFragment.newInstance(),"about")
                     .commit();
+            stateDrawer = false;
             return;
         }
 
@@ -272,21 +280,11 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, RulesFragment.newInstance(),"rules")
                     .commit();
+            stateDrawer = false;
             return;
         }
 
 
-        if (group == 2 && childr==3){
-            //privace
-            String url = "www.blinkrapp.co/privacy";
-            if (!url.startsWith("http://") && !url.startsWith("https://"))
-                url = "http://" + url;
-
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
-
-            return;
-        }
 
 
 
@@ -301,6 +299,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, MyCommentFragment.newInstance(childr + 1),"mycomments")
                     .commit();
+            stateDrawer = false;
         }else{
 
             Fragment fragment = new ContentFragment();
@@ -309,10 +308,17 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
 
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,"content").commit();
+            stateDrawer = false;
 
         }
 
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
     }
 
 

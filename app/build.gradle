@@ -8,6 +8,8 @@ android {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
+        maven {url "https://clojars.org/repo/"}
+
     }
 
 
@@ -46,5 +48,6 @@ dependencies {
     compile 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.cocosw:bottomsheet:1.+@aar'
-
+    compile "frankiesardo:icepick:3.0.3-SNAPSHOT"
+    provided "frankiesardo:icepick-processor:3.0.3-SNAPSHOT"
 }

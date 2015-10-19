@@ -457,12 +457,58 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(childr, true);
         }
+        filter(grooup,childr);
+
+    }
+
+
+    public  void filter(int group , int childr){
+        if (group == 1 && childr==1){
+            //rate  Blinckr
+            final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
+
+            return;
+        }
+
+        if (group == 2 && childr==2){
+            //terms
+            String url = "www.blinkrapp.co/tos";
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://" + url;
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+
+            return;
+        }
+
+        if (group == 2 && childr==3){
+            //privace
+            String url = "www.blinkrapp.co/privacy";
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://" + url;
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+
+            return;
+        }
+
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(grooup,childr);
+            mCallbacks.onNavigationDrawerItemSelected(group, childr);
         }
+
+
+
     }
 
     @Override
