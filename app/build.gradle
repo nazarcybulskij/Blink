@@ -50,4 +50,5 @@ dependencies {
     compile 'com.cocosw:bottomsheet:1.+@aar'
     compile "frankiesardo:icepick:3.0.3-SNAPSHOT"
     provided "frankiesardo:icepick-processor:3.0.3-SNAPSHOT"
+    compile 'me.grantland:autofittextview:0.2.+'
 }

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -6,15 +7,16 @@
     android:paddingBottom="3dp"
     android:paddingLeft="64dp"
     android:background="@android:color/white"
-    android:weightSum="6">
+    android:weightSum="5">
 
 
     <TextView
         android:id="@+id/text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="21sp"
+        android:textSize="20sp"
         android:layout_weight="1"
+        android:paddingRight="4dp"
         android:text="gfchgf g dfgfdg  fdgdf g dfg df  fdg dfg d fd gdf gffgd   df gdfg d"/>
 
 
@@ -24,15 +26,29 @@
             android:src="@drawable/time"
             android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:layout_gravity="center"
-            android:text="time"
-            android:textStyle="bold"
-            android:layout_weight="5"/>
+        <!--<TextView-->
+            <!--android:id="@+id/time"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="left"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:text="time"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_weight="4"/>-->
+
+
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_gravity="center"
+        android:text="time"
+        android:textStyle="bold"
+        android:layout_weight="4"
+        android:maxLines="1"
+        autofit:minTextSize="9sp"
+        />
 
 
 
