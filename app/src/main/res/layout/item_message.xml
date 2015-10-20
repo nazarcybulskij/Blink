@@ -66,13 +66,13 @@
                 android:id="@+id/ratingBar"
                 style="@style/foodRatingBarSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:supportsRtl="true"
                 android:clickable="false"
                 android:focusable="false"
+                android:layout_height="16dp"
                 android:focusableInTouchMode="false"
                 />
 

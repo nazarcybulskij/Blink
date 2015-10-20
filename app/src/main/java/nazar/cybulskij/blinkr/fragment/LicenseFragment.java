@@ -65,7 +65,8 @@ public class LicenseFragment extends Fragment {
 
     @OnClick(R.id.save_license)
     public void onSaveLicense(View v){
-        String license = mtvLicense.getText().toString();
+        String license = mtvLicense.getText().toString().replace("-","");
+
         if (license.length()<4){
             Toast.makeText(getActivity(),"Please Enter License Plate #",Toast.LENGTH_LONG).show();
         }else{
