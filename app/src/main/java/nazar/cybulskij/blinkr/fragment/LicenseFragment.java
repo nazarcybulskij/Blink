@@ -44,7 +44,17 @@ public class LicenseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_license, container, false);
         ButterKnife.bind(this, view);
         mtvLicense.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        init();
         return view;
+    }
+
+    private void init(){
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        String license = installation.getString("license");
+        if (license!=null){
+            mtvLicense.setText(license);
+
+        }
     }
 
 

@@ -143,8 +143,8 @@
     <orderEntry type="library" exported="" name="data.priority-map-0.0.2" level="project" />
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="icepick-processor-3.0.3-SNAPSHOT" level="project" />
-    <orderEntry type="library" exported="" name="bolts-android-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="bolts-android-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-safetynet-7.8.0" level="project" />
     <orderEntry type="library" exported="" name="icepick-3.0.3-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-7.8.0" level="project" />

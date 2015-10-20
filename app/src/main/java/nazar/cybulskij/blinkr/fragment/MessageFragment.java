@@ -170,32 +170,34 @@ public class MessageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
+                            .sheet(R.id.Email, getResources().getDrawable(R.drawable.message_filled_64),"Email")
                             .sheet(R.menu.menu_bottom_sheet)
+
                             .listener(new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                                    utils.saveFile(utils.getBitmapFromView(mCommentsList));
+                            utils.saveFile(utils.getBitmapFromView(mCommentsList));
 
-                                    switch (which) {
-                                        case R.id.Email:
-                                            shareEmail();
-                                            break;
-                                        case R.id.Facebook:
-                                            shareFacebook();
-                                            break;
-                                        case R.id.Twitter:
-                                            shareTwitter();
+                            switch (which) {
+                                case R.id.Email:
+                                    shareEmail();
+                                    break;
+                                case R.id.Facebook:
+                                    shareFacebook();
+                                    break;
+                                case R.id.Twitter:
+                                    shareTwitter();
 
-                                            break;
-                                        case R.id.Whatsapp:
-                                            shareWhatsapp();
-                                            break;
+                                    break;
+                                case R.id.Whatsapp:
+                                    shareWhatsapp();
+                                    break;
 
 
-                                    }
+                            }
 
-                                }
+                        }
                             }).show();
 
                 }
