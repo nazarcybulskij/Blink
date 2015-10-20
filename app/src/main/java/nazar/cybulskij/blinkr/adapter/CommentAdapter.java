@@ -62,7 +62,7 @@ public class CommentAdapter extends ParseQueryAdapter<Comment> {
         }else{
             holder.tvTime.setText(diffDays+"d");
         }
-        
+
         return view;
     }
 

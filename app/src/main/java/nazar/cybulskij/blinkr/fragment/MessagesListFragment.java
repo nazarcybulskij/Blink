@@ -11,12 +11,17 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
@@ -43,6 +48,8 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
     @Bind(R.id.list)
     ListView mListview;
 
+     SearchView mSearchView;
+    String searchstr="";
 
     FeedAdapter mFeedAdapterNerby;
 
@@ -124,12 +131,46 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
         super.onPause();
     }
 
+    boolean first=true;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         if (mListview.getHeaderViewsCount() == 0) {
             View header = View.inflate(getActivity(), R.layout.header_layout, null);
+            mSearchView = (SearchView)header.findViewById(R.id.searchView);
+
+
+
+            int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            EditText searchPlate = (EditText) mSearchView.findViewById(searchPlateId);
+            searchPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+            searchPlate.setTextColor(getResources().getColor(R.color.orange));
+
+            //searchPlate.setTextColor(getResources().getColor(R.color.novoda_blue));
+
+            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    searchstr = query;
+                    mFeedAdapterNerby.loadObjects();
+                    mFeedAdapterRecent.loadObjects();
+                    //Toast.makeText(getActivity(),query,Toast.LENGTH_SHORT).show();
+
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if(newText.equals("")){
+                        searchstr = "";
+                        mFeedAdapterNerby.loadObjects();
+                        mFeedAdapterRecent.loadObjects();
+                    }
+                    return false;
+                }
+            });
             mListview.addHeaderView(header);
         }
 
@@ -147,6 +188,9 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
                         final ParseGeoPoint myPoint = MainActivity.geoPointFromLocation(myLoc);
                         // Create the map Parse query
                         ParseQuery<Feed> query = Feed.getQuery();
+                        if (!searchstr.trim().equals("")) {
+                            query.whereContains("License",searchstr);
+                        }
                         // Set up additional query filters
                          query.whereWithinMiles("location", myPoint, 15.0);
                         query.whereLessThanOrEqualTo("Reports", 2);
@@ -167,6 +211,9 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
                         // Create the map Parse query
                         ParseQuery<Feed> query = Feed.getQuery();
                         // Set up additional query filters
+                        if (!searchstr.trim().equals("")) {
+                            query.whereContains("License",searchstr);
+                        }
                         query.whereLessThanOrEqualTo("Reports", 2);
                         query.orderByDescending("createdAt");
                         query.setLimit(MainActivity.MAX_POST_SEARCH_RESULTS);
