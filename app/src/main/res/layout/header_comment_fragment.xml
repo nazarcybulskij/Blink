@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,31 +19,47 @@
 
 
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
 
         <LinearLayout
+            android:id="@+id/ll_name"
+            android:layout_alignParentLeft="true"
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_weight="8"
+
+            android:paddingRight="8dp"
+            android:clickable="false"
+            android:descendantFocusability="blocksDescendants"
+            android:focusable="false"
+            android:focusableInTouchMode="false">
 
 
 
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:text="12-wrw45353"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
             <RatingBar
+                android:visibility="gone"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="1.0"
@@ -50,58 +67,170 @@
                 android:id="@+id/ratingBar"
                 style="@style/foodRatingBarSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:supportsRtl="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:layout_height="16dp"
+                android:focusableInTouchMode="false"
                 />
 
 
         </LinearLayout>
 
 
-        <!--<ImageView-->
-            <!--android:id="@+id/count_comment"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:text="2 Comments"-->
-            <!--android:textSize="17sp"-->
-            <!--android:textColor="@android:color/darker_gray"-->
-            <!--android:layout_weight="4"/>-->
-        <!-- -->
+        <TextView
+            android:layout_toRightOf="@+id/ll_name"
+            android:id="@+id/count_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="2 Comments"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_weight="10"
+            android:clickable="false"
+            android:focusable="false"
+            android:paddingRight="8dp"
+            android:paddingLeft="8dp"
+            android:focusableInTouchMode="false"/>
+
+
         <ImageView
+            android:layout_toRightOf="@+id/count_comment"
+            android:layout_toLeftOf="@+id/imagetime"
             android:id="@+id/share"
-            android:layout_width="fill_parent"
+            android:layout_width="40dp"
             android:layout_height="10dp"
             android:gravity="center"
             android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:src="@drawable/more"
             android:layout_weight="7"/>
 
-
-
         <ImageView
+            android:id="@+id/imagetime"
+            android:layout_toLeftOf="@+id/time"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/time"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_centerVertical="true"
+            android:focusableInTouchMode="false"/>
 
 
 
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/time"
-            android:layout_width="fill_parent"
+            android:layout_alignParentRight="true"
+
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:layout_gravity="center"
             android:text="time"
             android:textStyle="bold"
-            android:layout_weight="10"/>
+            android:layout_weight="10"
+            android:maxLines="1"
+            autofit:minTextSize="9sp"
+            />
 
-    </LinearLayout>
+    </RelativeLayout>
+
+
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="5">-->
+
+
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/name"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="@android:color/holo_orange_dark"-->
+                <!--android:textSize="17sp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="12-wrw45353"-->
+                <!--/>-->
+
+            <!--<RatingBar-->
+                <!--android:visibility="gone"-->
+                <!--android:isIndicator="true"-->
+                <!--android:numStars="5"-->
+                <!--android:stepSize="1.0"-->
+                <!--android:rating="1"-->
+                <!--android:id="@+id/ratingBar"-->
+                <!--style="@style/foodRatingBarSmall"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:supportsRtl="true"-->
+                <!--/>-->
+
+
+        <!--</LinearLayout>-->
+
+
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/count_comment"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="2 Comments"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textSize="17sp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textColor="@android:color/darker_gray"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_weight="4"/>&ndash;&gt;-->
+        <!--&lt;!&ndash; &ndash;&gt;-->
+        <!--<ImageView-->
+            <!--android:id="@+id/share"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:src="@drawable/more"-->
+            <!--android:layout_weight="7"/>-->
+
+
+
+        <!--<ImageView-->
+            <!--android:layout_width="16dp"-->
+            <!--android:layout_height="16dp"-->
+            <!--android:src="@drawable/time"-->
+            <!--android:layout_gravity="center"/>-->
+
+
+
+
+        <!--<me.grantland.widget.AutofitTextView-->
+            <!--android:id="@+id/time"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="left"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:text="time"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_weight="10"-->
+            <!--android:maxLines="1"-->
+            <!--autofit:minTextSize="9sp"-->
+            <!--/>-->
+
+    <!--</LinearLayout>-->
 
 
 
