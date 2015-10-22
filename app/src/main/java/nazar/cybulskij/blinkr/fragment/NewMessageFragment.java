@@ -3,12 +3,15 @@ package nazar.cybulskij.blinkr.fragment;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +98,32 @@ public class NewMessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_new_message, container, false);
-        ButterKnife.bind(this, view);;
+        ButterKnife.bind(this, view);
+       ;
         mTextMessage.setMaxTextSize(200);
+        mPlate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    if (mPlate.getText().toString().trim().length()>5){
+                        Drawable indiactor = getResources().getDrawable(R.drawable.greencheck);
+                        mPlate.setCompoundDrawablesWithIntrinsicBounds(null, null, indiactor, null);
+                    }else{
+                        mPlate.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                    }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         return view;
     }
