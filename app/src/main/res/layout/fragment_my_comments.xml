@@ -17,6 +17,7 @@
         android:id="@id/android:list"
         android:paddingRight="8dp"
         android:paddingLeft="8dp"
+        android:divider="@null"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

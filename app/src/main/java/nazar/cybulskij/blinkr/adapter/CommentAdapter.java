@@ -19,10 +19,12 @@ import nazar.cybulskij.blinkr.model.Comment;
 public class CommentAdapter extends ParseQueryAdapter<Comment> {
 
     LayoutInflater mInflater;
+    int resource;
 
-    public CommentAdapter(Context context, QueryFactory<Comment> queryFactory) {
+    public CommentAdapter(Context context, QueryFactory<Comment> queryFactory,int resourse) {
         super(context, queryFactory);
         mInflater = LayoutInflater.from(context);
+        this.resource = resourse;
 
     }
 
@@ -30,7 +32,7 @@ public class CommentAdapter extends ParseQueryAdapter<Comment> {
     public View getItemView(Comment comment, View view, ViewGroup parent) {
         ViewHolder holder;
         if (view == null) {
-            view = mInflater.inflate(R.layout.item_comment, parent, false);
+            view = mInflater.inflate(this.resource, parent, false);
             holder = new ViewHolder();
             holder.tvText = (TextView) view.findViewById(R.id.text);
             holder.tvTime = (TextView) view.findViewById(R.id.time);

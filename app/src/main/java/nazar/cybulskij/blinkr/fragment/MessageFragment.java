@@ -141,6 +141,7 @@ public class MessageFragment extends Fragment {
             holder.tvName = (TextView) header.findViewById(R.id.name);
             holder.ratingBar = (RatingBar) header.findViewById(R.id.ratingBar);
             holder.tvTime = (TextView) header.findViewById(R.id.time);
+            holder.tvCountsComment = (TextView) header.findViewById(R.id.count_comment);
             holder.tvName.setText(feed.getLicense());
             holder.ratingBar.setRating(feed.getRating().floatValue()*10);
             Date date = new Date();
@@ -164,6 +165,18 @@ public class MessageFragment extends Fragment {
             }else{
                 holder.tvTime.setText(diffDays + "d");
             }
+
+
+        if (feed.getCommentsNumber()==0){
+            holder.tvCountsComment.setVisibility(View.INVISIBLE);
+        }else{
+            holder.tvCountsComment.setVisibility(View.VISIBLE);
+            holder.tvCountsComment.setText(feed.getCommentsNumber()+" Comments");
+        }
+
+
+
+
 
             holder.tvText.setText(feed.getStatus());
             holder.ivShare.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +230,7 @@ public class MessageFragment extends Fragment {
                     query.addAscendingOrder("createdAt");
                     return query;
                 }
-            });
+            },R.layout.item_comment);
 
             mCommentAdapter.setAutoload(true);
             // Disable pagination, we'll manage the query limit ourselves
@@ -423,6 +436,7 @@ public class MessageFragment extends Fragment {
         TextView tvTime;
         ImageView ivShare;
         RatingBar ratingBar;
+        TextView tvCountsComment;
     }
 
 

@@ -100,7 +100,7 @@ public class MyCommentFragment extends ListFragment {
                 };
 
         if (mCommentsAdapter == null) {
-            mCommentsAdapter = new CommentAdapter(getActivity(), factory);
+            mCommentsAdapter = new CommentAdapter(getActivity(), factory,R.layout.item_comment_fragment);
             // Disable automatic loading when the adapter is attached to a view.
             mCommentsAdapter.setAutoload(true);
 
