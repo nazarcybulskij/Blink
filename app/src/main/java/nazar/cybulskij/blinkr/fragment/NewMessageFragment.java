@@ -60,8 +60,8 @@ public class NewMessageFragment extends Fragment {
     LimitedEditText mTextMessage;
     @Bind(R.id.plate)
     EditText mPlate;
-    @Bind(R.id.ratingBar)
-    RatingBar mRatting;
+   // @Bind(R.id.ratingBar)
+   // RatingBar mRatting;
 
 
 
@@ -167,7 +167,7 @@ public class NewMessageFragment extends Fragment {
         mPlate.setText("");
         String text = mTextMessage.getText().toString();
         mTextMessage.setText("");
-        float rate = mRatting.getRating();
+      //  float rate = mRatting.getRating();
 
         if (plate.trim().length()<5){
             return;
@@ -189,7 +189,7 @@ public class NewMessageFragment extends Fragment {
         feedSave.setLocation(MainActivity.geoPointFromLocation(activity.getLastLocation()));
         feedSave.setCommentsNumber(0);
         feedSave.put("Reports",0);
-        feedSave.setRating(rate/10.0);
+        //feedSave.setRating(rate/10.0);
 
         ParseACL acl = new ParseACL();
 
