@@ -86,6 +86,6 @@
         android:layout_marginLeft="16dp"
         android:textColor="@color/orange"
         android:background="@drawable/orange_bagrount"
-        android:text="Post Message"/>
+        android:text="Submit"/>
 
 </LinearLayout>

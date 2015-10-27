@@ -42,6 +42,14 @@ public class Feed extends ParseObject {
     public void setCommentsNumber(Number value) {
         put("CommentsNumber", value);
     }
+    public Number getReportsCount() {
+        return getNumber("Reports");
+    }
+
+    public void setReportsCount(Number value) {
+        put("Reports", value);
+    }
+
 
 
     public ParseGeoPoint getLocation() {

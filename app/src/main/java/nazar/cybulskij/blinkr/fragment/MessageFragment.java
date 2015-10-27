@@ -139,11 +139,11 @@ public class MessageFragment extends Fragment {
             holder.ivShare = (ImageView) header.findViewById(R.id.share);
             holder.tvText= (TextView) header.findViewById(R.id.text);
             holder.tvName = (TextView) header.findViewById(R.id.name);
-            holder.ratingBar = (RatingBar) header.findViewById(R.id.ratingBar);
+           // holder.ratingBar = (RatingBar) header.findViewById(R.id.ratingBar);
             holder.tvTime = (TextView) header.findViewById(R.id.time);
             holder.tvCountsComment = (TextView) header.findViewById(R.id.count_comment);
             holder.tvName.setText(feed.getLicense());
-            holder.ratingBar.setRating(feed.getRating().floatValue()*10);
+           // holder.ratingBar.setRating(feed.getRating().floatValue()*10);
             Date date = new Date();
             Date dateuser = feed.getCreatedAt();
             long diff = date.getTime() - dateuser.getTime();
@@ -183,9 +183,7 @@ public class MessageFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
-                            .sheet(R.id.Email, getResources().getDrawable(R.drawable.message_filled_64),"Email")
-                            .sheet(R.menu.menu_bottom_sheet)
-
+                            .sheet(R.menu.menu_bottom_sheet_report)
                             .listener(new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -193,6 +191,9 @@ public class MessageFragment extends Fragment {
                             utils.saveFile(utils.getBitmapFromView(mCommentsList));
 
                             switch (which) {
+                                case R.id.Report:
+                                    report();
+                                    break;
                                 case R.id.Email:
                                     shareEmail();
                                     break;
@@ -241,6 +242,24 @@ public class MessageFragment extends Fragment {
             mCommentAdapter.loadObjects();
         }
 
+
+    }
+
+    public void report(){
+
+        Number number = feed.getReportsCount();
+
+
+        feed.increment("Reports");
+        feed.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e==null){
+                    Toast.makeText(getActivity(),"Send Report",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
     }
 
@@ -435,7 +454,7 @@ public class MessageFragment extends Fragment {
         TextView tvName;
         TextView tvTime;
         ImageView ivShare;
-        RatingBar ratingBar;
+       // RatingBar ratingBar;
         TextView tvCountsComment;
     }
 

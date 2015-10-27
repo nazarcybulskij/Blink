@@ -199,11 +199,8 @@ public class NewMessageFragment extends Fragment {
         feedSave.setACL(acl);
 
         feedSave.saveInBackground();
+        
 
-        MessagesListFragment fragment = (MessagesListFragment)getActivity().getFragmentManager().findFragmentByTag("messages");
-        if (fragment!=null){
-            fragment.doListQuery();
-        }
 
         LeftIconClick();
 

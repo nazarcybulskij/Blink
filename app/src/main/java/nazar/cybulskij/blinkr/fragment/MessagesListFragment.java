@@ -36,6 +36,7 @@ import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.FeedAdapter;
 import nazar.cybulskij.blinkr.events.FeedEvent;
+import nazar.cybulskij.blinkr.events.ReloadEvent;
 import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
 import nazar.cybulskij.blinkr.model.Feed;
 import nazar.cybulskij.blinkr.model.MessagesEnum;
@@ -136,6 +137,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
 
         if (mListview.getHeaderViewsCount() == 0) {
             View header = View.inflate(getActivity(), R.layout.header_layout, null);
@@ -299,6 +301,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
 
 
     }
@@ -324,8 +327,15 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
 
 
 
+
+
+
     @Override
     public void onChange() {
         doListQuery();
+    }
+
+    public  void onEvent(ReloadEvent event){
+        onChange();
     }
 }

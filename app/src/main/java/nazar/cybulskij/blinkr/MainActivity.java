@@ -47,7 +47,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseGeoPoint;
 
+import de.greenrobot.event.EventBus;
 import icepick.Icepick;
+import nazar.cybulskij.blinkr.events.ReloadEvent;
 import nazar.cybulskij.blinkr.fragment.AboutFragment;
 import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.LicenseFragment;
@@ -350,6 +352,8 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             super.onBackPressed();
         }
         else {
+            EventBus.getDefault().post(new ReloadEvent(1));
+
             getFragmentManager().popBackStack();
         }
     }
@@ -552,6 +556,8 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             hasSetUpInitialLocation = true;
         }
 
+        EventBus.getDefault().post(new ReloadEvent(1));
+
         MessagesListFragment fragment = (MessagesListFragment) getFragmentManager().findFragmentByTag("messages");
         if (fragment!=null){
             fragment.doListQuery();
@@ -639,6 +645,10 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             return mDialog;
         }
+    }
+
+    private static String makeFragmentName(int viewId, int index) {
+        return "android:switcher:" + viewId + ":" + index;
     }
 
 }
