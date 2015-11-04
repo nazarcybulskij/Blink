@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/DeveloperNazar/Blinkr_v4/ParseUI-Login/src/main/res/values-es/strings.xml -->
+    <!-- From: file:/E:/Android/GitHub/Blink/ParseUI-Login/src/main/res/values-es/strings.xml -->
     <eat-comment/>
     <plurals name="com_parse_ui_password_too_short_toast">
         <item quantity="one">La contraseña debe tener al menos %d caracteres</item>

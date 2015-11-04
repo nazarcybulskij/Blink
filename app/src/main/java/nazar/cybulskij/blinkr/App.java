@@ -2,6 +2,7 @@ package nazar.cybulskij.blinkr;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
@@ -10,6 +11,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import io.fabric.sdk.android.Fabric;
 import nazar.cybulskij.blinkr.model.Comment;
 import nazar.cybulskij.blinkr.model.Feed;
 
@@ -21,6 +23,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         ParseObject.registerSubclass(Feed.class);
         ParseObject.registerSubclass(Comment.class);
         Parse.enableLocalDatastore(this);

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="debug"><source path="/DeveloperNazar/Blinkr_v4/ParseUI-Widget/build/intermediates/bundles/debug/assets"/></dataSet><dataSet config="main"><source path="/DeveloperNazar/Blinkr_v4/ParseUI-Widget/src/androidTest/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="debug"><source path="E:\Android\GitHub\Blink\ParseUI-Widget\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="E:\Android\GitHub\Blink\ParseUI-Widget\src\androidTest\assets"/></dataSet></merger>
