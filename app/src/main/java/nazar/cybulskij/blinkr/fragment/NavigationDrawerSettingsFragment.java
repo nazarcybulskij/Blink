@@ -311,7 +311,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
         for (final ResolveInfo app : activityList)
         {
-            if ("com.twitter.android.PostActivity".equals(app.activityInfo.name))
+            if ((app.activityInfo.name).contains("twitter"))//"com.twitter.android.PostActivity".equals(app.activityInfo.name)
             {
                 final ActivityInfo activity = app.activityInfo;
                 final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);

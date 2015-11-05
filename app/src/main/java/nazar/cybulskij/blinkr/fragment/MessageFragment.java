@@ -331,10 +331,10 @@ public class MessageFragment extends Fragment {
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         PackageManager pm = getActivity().getPackageManager();
-        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
         for (final ResolveInfo app : activityList)
         {
-            if ("com.twitter.android.PostActivity".equals(app.activityInfo.name))
+            if ((app.activityInfo.name).contains("twitter"))//"com.twitter.android.PostActivity".equals(app.activityInfo.name)
             {
                 final ActivityInfo activity = app.activityInfo;
                 final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
