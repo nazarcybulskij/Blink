@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:mask="http://schemas.android.com/apk/res/nazar.cybulskij.blinkr"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,7 @@
 
 
 
-    <br.com.sapereaude.maskedEditText.MaskedEditText
+    <AutoCompleteTextView
         android:id="@+id/license"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -27,10 +26,14 @@
         android:layout_marginLeft="16dp"
         android:background="@drawable/gray_bagrount"
         android:textColorHint="@color/ligthgray"
-        android:hint="License Rlate # "
+        android:inputType="textCapCharacters"
+        android:hint="@string/license_plate"
         android:textColor="@color/orange"
-        mask:mask="##########"
+        android:maxLines="1"
+        android:digits="@string/myAlphaNumeric"
         />
+
+
 
 
     <Button
@@ -46,6 +49,7 @@
         android:paddingRight="32dp"
         android:textColor="@color/orange"
         android:background="@drawable/orange_bagrount"
-        android:text="Save License "/>
+        android:text="@string/button_save_licence"
+        android:onClick="oClick"/>
 
 </LinearLayout>

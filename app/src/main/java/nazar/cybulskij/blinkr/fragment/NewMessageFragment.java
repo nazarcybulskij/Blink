@@ -12,12 +12,16 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
 
@@ -51,21 +55,25 @@ public class NewMessageFragment extends Fragment {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
 
-
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private CharSequence tmp;
 
     @Bind(R.id.messegetext)
     LimitedEditText mTextMessage;
     @Bind(R.id.plate)
     EditText mPlate;
-   // @Bind(R.id.ratingBar)
-   // RatingBar mRatting;
+    // @Bind(R.id.ratingBar)
+    // RatingBar mRatting;
 
 
+//    String[] licenceShtats = getResources().getStringArray(R.array.Shtats_for_licelce);
+//    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),R.layout.abc_activity_chooser_view_list_item,licenceShtats);
+//    mPlate.setAdapter(adapter);
+//    mPlate.setThreshold(1);
 
-    public  NewMessageFragment() {
+    public NewMessageFragment() {
     }
 
     @Override
@@ -82,10 +90,7 @@ public class NewMessageFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-
-
         // Select either the default item (0) or the last selected item.
-
     }
 
     @Override
@@ -97,10 +102,27 @@ public class NewMessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_new_message, container, false);
+        View view = inflater.inflate(R.layout.fragment_new_message, container, false);
         ButterKnife.bind(this, view);
-       ;
+
+        mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        LicenseFragment.hideKeyboard(getActivity());
+
         mTextMessage.setMaxTextSize(200);
+
+        mPlate.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (mPlate.length() == 4) {
+                    if (keyCode == KeyEvent.KEYCODE_DEL) {
+                        LicenseFragment.setFirstTwoChar(mPlate, tmp);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         mPlate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,12 +132,17 @@ public class NewMessageFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    if (mPlate.getText().toString().trim().length()>5){
-                        Drawable indiactor = getResources().getDrawable(R.drawable.greencheck);
-                        mPlate.setCompoundDrawablesWithIntrinsicBounds(null, null, indiactor, null);
-                    }else{
-                        mPlate.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                    }
+                if (mPlate.getText().toString().trim().length() >= 4) {
+                    Drawable indiactor = getResources().getDrawable(R.drawable.greencheck);
+                    mPlate.setCompoundDrawablesWithIntrinsicBounds(null, null, indiactor, null);
+                } else {
+                    mPlate.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                }
+
+                tmp = s;
+                if (s.length() == 3) {
+                    LicenseFragment.setTextWithDash(mPlate, tmp);
+                }
             }
 
             @Override
@@ -124,17 +151,8 @@ public class NewMessageFragment extends Fragment {
             }
         });
 
-        mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         return view;
     }
-
-
-
-
-
-
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -154,41 +172,32 @@ public class NewMessageFragment extends Fragment {
      */
 
 
-
-
-
-
     @OnClick(R.id.post)
-    public void onPostMessage(View v){
-
+    public void onPostMessage(View v) {
 
 
         String plate = mPlate.getText().toString();
         mPlate.setText("");
         String text = mTextMessage.getText().toString();
         mTextMessage.setText("");
-      //  float rate = mRatting.getRating();
+        //  float rate = mRatting.getRating();
 
-        if (plate.trim().length()<5){
+        if (plate.trim().length() <= 3) {
             return;
         }
-        if (text.trim().equals("")){
+        if (text.trim().equals("")) {
             return;
         }
-
-
-
-
 
 
         Feed feedSave = new Feed();
         feedSave.setLicense(plate);
         feedSave.setStatus(text);
         feedSave.put("fromUser", ParseUser.getCurrentUser());
-        MainActivity activity = (MainActivity)getActivity();
+        MainActivity activity = (MainActivity) getActivity();
         feedSave.setLocation(MainActivity.geoPointFromLocation(activity.getLastLocation()));
         feedSave.setCommentsNumber(0);
-        feedSave.put("Reports",0);
+        feedSave.put("Reports", 0);
         //feedSave.setRating(rate/10.0);
 
         ParseACL acl = new ParseACL();
@@ -199,21 +208,16 @@ public class NewMessageFragment extends Fragment {
         feedSave.setACL(acl);
 
         feedSave.saveInBackground();
-        
-
 
         LeftIconClick();
-
-
-
-
-
+        LicenseFragment.hideKeyboard(getActivity());
 
     }
 
     @OnClick(R.id.left_icon)
-    public void LeftIconClick(){
-        ViewPager vp=(ViewPager) getActivity().findViewById(R.id.container_view_pager);
-        vp.setCurrentItem(vp.getCurrentItem()-1);
+    public void LeftIconClick() {
+        ViewPager vp = (ViewPager) getActivity().findViewById(R.id.container_view_pager);
+        vp.setCurrentItem(vp.getCurrentItem() - 1);
+        LicenseFragment.hideKeyboard(getActivity());
     }
 }

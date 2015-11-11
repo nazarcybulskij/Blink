@@ -17,6 +17,8 @@
 <resources>
     <string name="app_name">Blinkr</string>
     <string name="stub"></string>
+    <string name="license_plate">License Plate #</string>
+    <string name="button_save_licence">Save License</string>
     <string name="about_text">Blinkr allows anyone to connect and message drivers around them using only the drivers license plate number.\n\n
 
 It acts like a bulletin board for your area by showing the most recent messages from people around you to drivers around you.\n\n
@@ -53,6 +55,61 @@ ready to go.\n\n
 
     <string name="parseAppID">bgdqHdHU1Zpc9sCFKeQ0IAU0bgz9UDXpNfXu549Q</string>
     <string name="parseClientID">vmXiZkOBveJhHjgO7ZhDpVyAkaoc2h08tvvX4AV2</string>
+    
+    <string-array name="Shtats_for_licelce">
+        <item>Alabama - AL</item>
+        <item>Alaska - AK</item>
+        <item>Arizona - AZ</item>
+        <item>Arkansas - AR</item>
+        <item>California - CA</item>
+        <item>Colorado - CO</item>
+        <item>Connecticut - CT</item>
+        <item>Delaware - DE</item>
+        <item>District of Columbia - DC</item>
+        <item>Florida - FL</item>
+        <item>Georgia - GA</item>
+        <item>Hawaii - HI</item>
+        <item>Idaho - ID</item>
+        <item><!--Illinois - -->IL</item>
+        <item>Indiana - IN</item>
+        <item>Iowa - IA</item>
+        <item>Kansas - KS</item>
+        <item>Kentucky - KY</item>
+        <item>Louisiana - LA</item>
+        <item>Missouri - MO</item>
+        <item>Montana - MT</item>
+        <item>Maine - ME</item>
+        <item>Maryland - MD</item>
+        <item>Massachusetts - MA</item>
+        <item>Michigan - MI</item>
+        <item>Minnesota - MN</item>
+        <item>Mississippi - MS</item>
+        <item>Nebraska - NE</item>
+        <item>Nevada - NV</item>
+        <item>New Hampshire - NH</item>
+        <item>New Jersey - NJ</item>
+        <item>New Mexico - NM</item>
+        <item>New York - NY</item>
+        <item>North Carolina - NC</item>
+        <item>North Dakota - ND</item>
+        <item>Ohio - OH</item>
+        <item>Oklahoma - OK</item>
+        <item>Oregon - OR</item>
+        <item>Pennsylvania - PA</item>
+        <item>Rhode Island - RI</item>
+        <item>South Carolina - SC</item>
+        <item>South Dakota - SD</item>
+        <item>Tennessee - TN</item>
+        <item>Texas - TX</item>
+        <item>Utah - UT</item>
+        <item>Vermont - VT</item>
+        <item>Virginia - VA</item>
+        <item>Washington - WA</item>
+        <item>West Virginia - WV</item>
+        <item>Wisconsin - WI</item>
+        <item>Wyoming - WY</item>
+    </string-array>
 
+    <string name="myAlphaNumeric">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
 </resources>
