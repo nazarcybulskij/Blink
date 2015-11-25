@@ -30,10 +30,9 @@
         android:hint="@string/license_plate"
         android:textColor="@color/orange"
         android:maxLines="1"
+        android:maxLength="19"
         android:digits="@string/myAlphaNumeric"
         />
-
-
 
 
     <Button

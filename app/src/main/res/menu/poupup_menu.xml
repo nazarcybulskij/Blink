@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:title="Aggressive driver"/>
+        <item android:title="Bad parking"/>
+        <item android:title="Cut me off"/>
+        <item android:title="Distracted driver"/>
+        <item android:title="Driving too close"/>
+        <item android:title="Driving unsafe vehicle"/>
+        <item android:title="Excessive speeding"/>
+        <item android:title="Failure to yield"/>
+        <item android:title="No signals"/>
+        <item android:title="Littering"/>
+        <item android:title="Illegal passing"/>
+        <item android:title="Illegal u-turn"/>
+        <item android:title="Great driver"/>
+        <item android:title="Nearly hit me"/>
+        <item android:title="Parked in handicap zone"/>
+        <item android:title="Pulled out in front of me"/>
+        <item android:title="Rude driver"/>
+        <item android:title="Red light runner"/>
+        <item android:title="Slow in the fast lane"/>
+        <item android:title="Stop sign runner"/>
+        <item android:title="Texting while driving"/>
+        <item android:title="Tailgating"/>
+        <item android:title="Unsafe lane change"/>
+</menu>
