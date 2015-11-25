@@ -13,6 +13,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -110,7 +111,7 @@ public class NewMessageFragment extends Fragment {
         mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         LicenseFragment.hideKeyboard(getActivity());
         mTextMessage.setMaxTextSize(411);
-        mTextMessage.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        mTextMessage.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         mPlate.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {

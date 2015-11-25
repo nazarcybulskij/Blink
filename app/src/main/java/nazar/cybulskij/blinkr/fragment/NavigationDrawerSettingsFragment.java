@@ -175,7 +175,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 /* Create the Intent */
-                final Intent emailIntent = new Intent(android.content.Intent.ACTION_SENDTO);
+                final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
 
                 /* Fill it with Data */
                 emailIntent.setType("message/rfc822");

@@ -44,7 +44,8 @@
             android:maxLines="5"
             android:padding="5dp"
             android:textColorHint="@color/ligthgray"
-            android:textSize="19sp" />
+            android:textSize="19sp"
+            android:digits="@string/myAlphaNumeric_for_message"/>
 
         <ImageButton
             android:id="@+id/reportButton"

@@ -164,8 +164,8 @@
     <orderEntry type="library" exported="" name="play-services-wallet-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-drive-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="icepick-3.0.3-SNAPSHOT" level="project" />
-    <orderEntry type="library" exported="" name="parse-android-1.10.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.1" level="project" />
+    <orderEntry type="library" exported="" name="parse-android-1.10.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-appinvite-8.3.0" level="project" />
