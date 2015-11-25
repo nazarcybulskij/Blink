@@ -19,11 +19,9 @@
     <string name="stub"></string>
     <string name="license_plate">License Plate #</string>
     <string name="button_save_licence">Save License</string>
-    <string name="about_text">Blinkr allows anyone to connect and message drivers around them using only the drivers license plate number.\n\n
-
-It acts like a bulletin board for your area by showing the most recent messages from people around you to drivers around you.\n\n
-
-Post messages to help drivers, ask questions, or just speak your mind and hopefully make new friends. To post a message, you simply enter the license plate number and you are
+    <string name="about_text">Blinkr allows anyone to connect and message drivers around them using only the drivers license plate number.\n
+        \nIt acts like a bulletin board for your area by showing the most recent messages from people around you to drivers around you.\n
+        \nPost messages to help drivers, ask questions, or just speak your mind and hopefully make new friends. To post a message, you simply enter the license plate number and you are
 ready to go.\n\n
 
 </string>
@@ -32,25 +30,25 @@ ready to go.\n\n
 
     <string name="rules_title">Rules and Regulations</string>
     <string name="rules_list">
-        1.  DON’T TEXT AND DRIVE.\n\n
+        1.  DON’T TEXT AND DRIVE.\n
 
-        2.  IF USING BLINKR WHILE IN A VEHICLE, YOU MUST BE A PASSENGER AND NOT THE DRIVER.\n\n
+        \n2.  IF USING BLINKR WHILE IN A VEHICLE, YOU MUST BE A PASSENGER AND NOT THE DRIVER.\n
 
-        3.  BE NICE AND BE KIND.\n\n
+        \n3.  BE NICE AND BE KIND.\n
 
-        4.  DO NOT BULLY OR SPECIFICALLY TARGET ANYONE VIA BLINKR.\n\n
+        \n4.  DO NOT BULLY OR SPECIFICALLY TARGET ANYONE VIA BLINKR.\n
 
-        5.  DO NOT POST PERSONAL IDENTIFYING INFORMATION ON BLINKR.\n\n
+        \n5.  DO NOT POST PERSONAL IDENTIFYING INFORMATION ON BLINKR.\n
 
-        6.  KEEP IT LOCAL.\n\n
+        \n6.  KEEP IT LOCAL.\n
 
-        7.  DON’T BE A JERK.\n\n
+        \n7.  DON’T BE A JERK.\n
 
-        8.  DO NOT USE BLINKR TO INSIGHT VIOLENCE AGAINST ANYONE.\n\n
+        \n8.  DO NOT USE BLINKR TO INSIGHT VIOLENCE AGAINST ANYONE.\n
 
-        9.  DO NOT BREAK THE LAW.\n\n
+        \n9.  DO NOT BREAK THE LAW.\n
 
-        10. ENJOY BLINKING.\n\n
+        \n10. ENJOY BLINKING.\n\n
     </string>
 
     <string name="parseAppID">bgdqHdHU1Zpc9sCFKeQ0IAU0bgz9UDXpNfXu549Q</string>

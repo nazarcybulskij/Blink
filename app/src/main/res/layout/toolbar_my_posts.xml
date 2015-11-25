@@ -14,8 +14,8 @@
         android:layout_toLeftOf="@+id/segmented"
         android:layout_alignParentLeft="true"
         android:layout_gravity="center"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="102dp"
         android:paddingLeft="8dp"
         android:scaleType="centerInside"
         android:src="@drawable/back_button3x" />

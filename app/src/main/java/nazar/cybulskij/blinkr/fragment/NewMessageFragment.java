@@ -25,11 +25,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.parse.ParseACL;
@@ -108,7 +110,7 @@ public class NewMessageFragment extends Fragment {
         mPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         LicenseFragment.hideKeyboard(getActivity());
         mTextMessage.setMaxTextSize(411);
-
+        mTextMessage.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mPlate.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -183,14 +185,12 @@ public class NewMessageFragment extends Fragment {
     @OnClick(R.id.post)
     public void onPostMessage(View v) {
         String plate = mPlate.getText().toString();
-        mPlate.setText("");
+//        mPlate.setText("");
         String text = mTextMessage.getText().toString();
-        mTextMessage.setText("");
+//        mTextMessage.setText("");
         //  float rate = mRatting.getRating();
-        if (plate.trim().length() <= 3) {
-            return;
-        }
-        if (text.trim().equals("")) {
+        if ((plate.trim().length() <= 3) || (text.trim().equals(""))) {
+            Toast.makeText(getActivity(),"Please check that you enter license plate and message!",Toast.LENGTH_LONG).show();
             return;
         }
         Feed feedSave = new Feed();

@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="15sp"
-            android:gravity="center"
+            android:gravity="left"
             android:text="12-wrw45353"
             android:clickable="false"
             android:focusable="false"

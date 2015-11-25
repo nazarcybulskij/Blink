@@ -69,8 +69,8 @@
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/segmented"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="102dp"
             android:paddingRight="8dp"
             android:scaleType="centerInside"
             android:src="@drawable/back_arrow3x"/>

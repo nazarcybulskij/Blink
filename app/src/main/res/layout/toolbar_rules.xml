@@ -28,22 +28,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:textSize="19sp"
-        android:text="Add Message"
+        android:text="Rules and Regulations    "
         android:layout_weight="2"
         android:gravity="center" />
-
-
-    <ImageView
-        android:id="@+id/rigth_icon"
-        android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/segmented"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/post3x"
-        android:visibility="invisible"/>
-
-
-
-
 </LinearLayout>

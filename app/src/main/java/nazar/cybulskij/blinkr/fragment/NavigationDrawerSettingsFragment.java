@@ -129,7 +129,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         ArrayList<String> children3 = new ArrayList<String>();
         children1.add("My Posts");
         children1.add("My Comments");
-        children1.add("My Licence Plate #");
+        children1.add("My License Plate #");
         groups.add(children1);
         children2.add("Share Blinkr");
         children2.add("Rate Blinkr");;
@@ -137,7 +137,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         children3.add("About Blinkr");
         children3.add("Rules and Regulations");
         children3.add("Terms of Service");
-        children3.add("Privace Policy");
+        children3.add("Privacy Policy");
         groups.add(children3);
 
         ArrayList<String> titles = new ArrayList<>();

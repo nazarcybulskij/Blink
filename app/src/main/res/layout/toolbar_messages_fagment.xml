@@ -13,9 +13,10 @@
             android:id="@+id/left_icon"
             android:layout_toLeftOf="@+id/segmented"
             android:layout_gravity="center"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="100dp"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:scaleType="centerInside"
             android:src="@drawable/gear3x"/>
 
@@ -50,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="NEABY"
+                android:text="NEARBY"
                 android:checked="true"
                 style="@style/RadioButton" />
 
@@ -70,11 +71,10 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/segmented"
             android:layout_gravity="center"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:paddingRight="8dp"
+            android:layout_width="40dp"
+            android:layout_height="100dp"
             android:scaleType="centerInside"
-            android:src="@drawable/edit"/>
+            android:src="@drawable/edit" />
 
 
 

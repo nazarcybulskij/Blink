@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray">
 
-    <include layout="@layout/toolbar_add_message">
+    <include layout="@layout/toolbar_about">
 
     </include>
 

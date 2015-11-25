@@ -40,7 +40,7 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/gray_bagrount"
             android:gravity="top"
-            android:hint="Remember, be nice"
+            android:hint="Remember, be nice."
             android:maxLines="5"
             android:padding="5dp"
             android:textColorHint="@color/ligthgray"
