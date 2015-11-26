@@ -33,6 +33,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.parse.ParseACL;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -210,6 +213,12 @@ public class NewMessageFragment extends Fragment {
         feedSave.saveInBackground();
         LeftIconClick();
         LicenseFragment.hideKeyboard(getActivity());
+
+
+        ParsePush parsePush = new ParsePush();
+        ParseQuery pQuery =  ParseInstallation.getCurrentInstallation().getQuery();
+        pQuery.whereEqualTo("license", plate);
+        parsePush.sendMessageInBackground("someone mentions your saved license plate", pQuery);
     }
     @OnClick(R.id.left_icon)
     public void LeftIconClick() {

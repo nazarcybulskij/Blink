@@ -429,6 +429,12 @@ public class MessageFragment extends Fragment {
                                         push.sendInBackground();
                                         mTextSend.setText("");
 
+
+                                        ParsePush parsePush = new ParsePush();
+                                        ParseQuery pQuery =  ParseInstallation.getCurrentInstallation().getQuery();
+                                        pQuery.whereEqualTo("license", feed.getLicense());
+                                        parsePush.sendMessageInBackground("your post received a comment.", pQuery);
+
                                         fullinfo();
                                     }
                                 }

@@ -48,7 +48,8 @@ public class App extends Application {
                 public void done(ParseUser user, ParseException e) {
                     if (e==null){
                         ParseInstallation curent = ParseInstallation.getCurrentInstallation();
-                        curent.setObjectId("owner");
+                       // curent.setObjectId("owner");
+                        curent.put("username", ParseUser.getCurrentUser().getUsername());
                         curent.saveInBackground();
 
                     }
@@ -56,7 +57,8 @@ public class App extends Application {
             });
         }else{
             ParseInstallation curent = ParseInstallation.getCurrentInstallation();
-            curent.setObjectId("owner");
+          //  curent.setObjectId("owner");
+            curent.put("username", ParseUser.getCurrentUser().getUsername());
             curent.saveInBackground();
         }
 
