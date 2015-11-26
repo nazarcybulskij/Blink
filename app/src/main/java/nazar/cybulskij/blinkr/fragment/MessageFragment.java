@@ -167,7 +167,7 @@ public class MessageFragment extends Fragment {
             }
 
 
-        if (feed.getCommentsNumber()==0){
+        if (feed.getCommentsNumber().intValue()==0){
             holder.tvCountsComment.setVisibility(View.INVISIBLE);
         }else{
             holder.tvCountsComment.setVisibility(View.VISIBLE);

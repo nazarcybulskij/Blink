@@ -112,4 +112,6 @@ ready to go.\n\n
 
     <string name="myAlphaNumeric">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
+    <string name="SENDER_ID">617859744906</string>
+
 </resources>
