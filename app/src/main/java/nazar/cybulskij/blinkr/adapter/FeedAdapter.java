@@ -81,7 +81,7 @@ public class FeedAdapter extends ParseQueryAdapter<Feed> {
 
         holder.tvText.setText(post.getStatus());
 
-        if (post.getCommentsNumber()==0){
+        if (post.getCommentsNumber().intValue()==0){
            holder.tvCountsComment.setVisibility(View.INVISIBLE);
         }else{
             holder.tvCountsComment.setVisibility(View.VISIBLE);

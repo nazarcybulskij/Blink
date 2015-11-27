@@ -106,9 +106,35 @@ ready to go.\n\n
         <item>West Virginia - WV</item>
         <item>Wisconsin - WI</item>
         <item>Wyoming - WY</item>
+
+
+
+        <item>Newfoundland and Labrador - NL</item>
+        <item>Prince Edward Island - PE</item>
+        <item>Nova Scotia - NS</item>
+        <item>New Brunswick - NB</item>
+        <item>Quebec - QC</item>
+
+        <item>Ontario - ON</item>
+        <item>Manitoba - MB</item>
+        <item>Saskatchewan - SK</item>
+        <item>Alberta - AB</item>
+
+        <item>British Columbia - BC</item>
+        <item>Yukon - YT</item>
+        <item>Northwest Territories - NT</item>
+        <item>Nunavut - NU</item>
+
+
+
+
+
+
     </string-array>
 
     <string name="myAlphaNumeric">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
     <string name="myAlphaNumeric_for_message">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \"\'!?.,()</string>
+
+    <string name="SENDER_ID">617859744906</string>
 
 </resources>

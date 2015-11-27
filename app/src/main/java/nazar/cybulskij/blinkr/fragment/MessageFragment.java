@@ -167,7 +167,7 @@ public class MessageFragment extends Fragment {
             }
 
 
-        if (feed.getCommentsNumber()==0){
+        if (feed.getCommentsNumber().intValue()==0){
             holder.tvCountsComment.setVisibility(View.INVISIBLE);
         }else{
             holder.tvCountsComment.setVisibility(View.VISIBLE);
@@ -428,6 +428,12 @@ public class MessageFragment extends Fragment {
                                         push.setData(data);
                                         push.sendInBackground();
                                         mTextSend.setText("");
+
+
+                                        ParsePush parsePush = new ParsePush();
+                                        ParseQuery pQuery =  ParseInstallation.getCurrentInstallation().getQuery();
+                                        pQuery.whereEqualTo("license", feed.getLicense());
+                                        parsePush.sendMessageInBackground("your post received a comment.", pQuery);
 
                                         fullinfo();
                                     }
