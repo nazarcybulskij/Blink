@@ -11,7 +11,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +58,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
     FeedAdapter mFeedAdapterNerby;
 
     FeedAdapter mFeedAdapterRecent;
+    private CharSequence tmp;
 
 
 
@@ -144,11 +148,39 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
             mSearchView = (SearchView)header.findViewById(R.id.searchView);
 
 
-
             int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-            EditText searchPlate = (EditText) mSearchView.findViewById(searchPlateId);
+            final EditText searchPlate = (EditText) mSearchView.findViewById(searchPlateId);
             searchPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
             searchPlate.setTextColor(getResources().getColor(R.color.orange));
+            searchPlate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    tmp = s;
+                    if (s.length() == 3) {
+                        LicenseFragment.setTextWithDash(searchPlate, tmp);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+            searchPlate.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (searchPlate.length() == 4) {
+                        if (keyCode == KeyEvent.KEYCODE_DEL) {
+                            LicenseFragment.setFirstTwoChar(searchPlate, tmp);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
 
             //searchPlate.setTextColor(getResources().getColor(R.color.novoda_blue));
 

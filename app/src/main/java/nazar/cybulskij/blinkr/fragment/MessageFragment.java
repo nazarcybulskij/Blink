@@ -255,7 +255,7 @@ public class MessageFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e==null){
-                    Toast.makeText(getActivity(),"Send Report",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Report sent.",Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -194,7 +194,7 @@ public class NewMessageFragment extends Fragment {
 //        mTextMessage.setText("");
         //  float rate = mRatting.getRating();
         if ((plate.trim().length() <= 3) || (text.trim().equals(""))) {
-            Toast.makeText(getActivity(),"Please check that you enter license plate and message!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Please enter a license plate # and your message",Toast.LENGTH_LONG).show();
             return;
         }
         Feed feedSave = new Feed();
