@@ -11,7 +11,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.pc.maskedtext.MaskedWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +59,9 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
     FeedAdapter mFeedAdapterNerby;
 
     FeedAdapter mFeedAdapterRecent;
+
+    String a;
+    int keyDel;
 
 
 
@@ -146,7 +153,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
 
 
             int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-            EditText searchPlate = (EditText) mSearchView.findViewById(searchPlateId);
+            final EditText searchPlate = (EditText) mSearchView.findViewById(searchPlateId);
             searchPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
             searchPlate.setTextColor(getResources().getColor(R.color.orange));
 
@@ -165,7 +172,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    if(newText.equals("")){
+                    if (newText.equals("")) {
                         searchstr = "";
                         mFeedAdapterNerby.loadObjects();
                         mFeedAdapterRecent.loadObjects();
@@ -174,6 +181,12 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
                 }
             });
             mListview.addHeaderView(header);
+
+            final MaskedWatcher phoneWatcher = new MaskedWatcher(searchPlate, "**-********");
+            phoneWatcher.setCharRepresentation('*');
+
+
+
         }
 
 
