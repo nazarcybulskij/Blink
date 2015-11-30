@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.pc.maskedtext.MaskedWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,6 +60,9 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
 
     FeedAdapter mFeedAdapterRecent;
     private CharSequence tmp;
+
+    String a;
+    int keyDel;
 
 
 
@@ -197,7 +201,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    if(newText.equals("")){
+                    if (newText.equals("")) {
                         searchstr = "";
                         mFeedAdapterNerby.loadObjects();
                         mFeedAdapterRecent.loadObjects();
@@ -206,6 +210,12 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
                 }
             });
             mListview.addHeaderView(header);
+
+            final MaskedWatcher phoneWatcher = new MaskedWatcher(searchPlate, "**-********");
+            phoneWatcher.setCharRepresentation('*');
+
+
+
         }
 
 
