@@ -10,7 +10,7 @@ import com.digits.sdk.android.DigitsAuthButton;
 /**
  * Created by nazar on 01.12.15.
  */
-public class Splashativity extends Activity {
+public class Splashactivity extends Activity {
 
 
     @Override
@@ -24,6 +24,6 @@ public class Splashativity extends Activity {
         setContentView(R.layout.activity_login);
 
         DigitsAuthButton digitsButton = (DigitsAuthButton) findViewById(R.id.auth_button);
-        digitsButton.setCallback(((App)getApplication()).getAuthCallback());
+        digitsButton.setCallback(((App) getApplication()).getAuthCallback());
     }
 }

@@ -1,8 +1,9 @@
 package nazar.cybulskij.blinkr;
 
-import android.app.Application;
+import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.digits.sdk.android.AuthCallback;
@@ -17,7 +18,6 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.parse.PushService;
 import com.parse.SaveCallback;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -49,12 +49,14 @@ public class App extends MultiDexApplication {
         authCallback = new AuthCallback() {
             @Override
             public void success(DigitsSession session, String phoneNumber) {
-                // Do something with the session
+                Toast.makeText(getApplicationContext(), "Authentication Successful for " + phoneNumber, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void failure(DigitsException exception) {
-                // Do something on failure
+                Toast.makeText(getApplicationContext(),"Failed to verify credentials", Toast.LENGTH_LONG).show();
             }
         };
         ParseObject.registerSubclass(Feed.class);
