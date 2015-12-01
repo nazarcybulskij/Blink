@@ -5,7 +5,10 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.Digits;
+import com.digits.sdk.android.DigitsException;
+import com.digits.sdk.android.DigitsSession;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
@@ -33,6 +36,8 @@ public class App extends MultiDexApplication {
     private static final String TWITTER_KEY = "hluqFPKtfdEeE9cVoXZsksjdE";
     private static final String TWITTER_SECRET = "G5pIcD45KmDnoKbeOl2jA6qhyc4t77DZE5yPpHz81QmGDiygMq";
 
+    private AuthCallback authCallback;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -41,6 +46,17 @@ public class App extends MultiDexApplication {
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Crashlytics(), new TwitterCore(authConfig), new Digits());
+        authCallback = new AuthCallback() {
+            @Override
+            public void success(DigitsSession session, String phoneNumber) {
+                // Do something with the session
+            }
+
+            @Override
+            public void failure(DigitsException exception) {
+                // Do something on failure
+            }
+        };
         ParseObject.registerSubclass(Feed.class);
         ParseObject.registerSubclass(Comment.class);
         Parse.enableLocalDatastore(this);
@@ -78,5 +94,10 @@ public class App extends MultiDexApplication {
 
 
 
+    }
+
+
+    public AuthCallback getAuthCallback(){
+        return authCallback;
     }
 }
