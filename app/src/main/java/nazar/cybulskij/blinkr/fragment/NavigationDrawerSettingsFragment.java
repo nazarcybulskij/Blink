@@ -35,6 +35,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.cocosw.bottomsheet.BottomSheet;
+import com.parse.ParseInstallation;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,8 +44,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nazar.cybulskij.blinkr.App;
 import nazar.cybulskij.blinkr.R;
 import nazar.cybulskij.blinkr.adapter.DrawerAdapter;
 import nazar.cybulskij.blinkr.util.Utils;
@@ -86,6 +89,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+
     public NavigationDrawerSettingsFragment() {
     }
 
@@ -104,7 +108,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(-1,mCurrentSelectedPosition);
+        selectItem(-1, mCurrentSelectedPosition);
     }
 
     @Override
@@ -118,32 +122,37 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v= inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        ButterKnife.bind(this,v);
-        mDrawerListView = (ExpandableListView)v.findViewById(R.id.list);
+        View v = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        ButterKnife.bind(this, v);
+        mDrawerListView = (ExpandableListView) v.findViewById(R.id.list);
 
         //Создаем набор данных для адаптера
         ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();
         ArrayList<String> children1 = new ArrayList<String>();
         ArrayList<String> children2 = new ArrayList<String>();
         ArrayList<String> children3 = new ArrayList<String>();
+        ArrayList<String> children4 = new ArrayList<>();
         children1.add("My Posts");
         children1.add("My Comments");
         children1.add("My License Plate #");
         groups.add(children1);
         children2.add("Share Blinkr");
-        children2.add("Rate Blinkr");;
+        children2.add("Rate Blinkr");
+
         groups.add(children2);
         children3.add("About Blinkr");
         children3.add("Rules and Regulations");
         children3.add("Terms of Service");
         children3.add("Privacy Policy");
         groups.add(children3);
+        children4.add("Log Out");
+        groups.add(children4);
 
         ArrayList<String> titles = new ArrayList<>();
         titles.add("MY STUFF");
         titles.add("FUN STUFF");
         titles.add("SERIOUS STUFF");
+        titles.add("");
 
 
         mDrawerListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -155,39 +164,41 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             }
         });
 
-        DrawerAdapter adapter = new DrawerAdapter(getActivity(),groups,titles);
+        DrawerAdapter adapter = new DrawerAdapter(getActivity(), groups, titles);
 
         mDrawerListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if (groupPosition==1 && childPosition==0){
+                if (groupPosition == 1 && childPosition == 0) {
                     utils.saveFile(utils.getBitmapFromView(getView()));
                     showSheet();
-                }else {
-                    selectItem(groupPosition, childPosition);
+                } else {
+                    if (groupPosition == 4 && childPosition == 0){
+                        App.logOut();
+                    }else {
+                        selectItem(groupPosition, childPosition);
+                    }
                 }
                 return false;
             }
         });
-
         View footer = View.inflate(getActivity(), R.layout.footer_drawer, null);
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* Create the Intent */
-                final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                        final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
 
                 /* Fill it with Data */
-                emailIntent.setType("message/rfc822");
-                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@blinkrapp.com"});
-                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+                        emailIntent.setType("message/rfc822");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@blinkrapp.com"});
+                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 
                 /* Send it off to the Activity-Chooser */
-                getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                        getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             }
         });
-
 
         mDrawerListView.addFooterView(footer);
 
@@ -200,9 +211,9 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     }
 
 
-    public void showSheet(){
+    public void showSheet() {
 
-       new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
+        new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
                 .grid() // <-- important part
                 .sheet(R.menu.menu_bottom_sheet)
                 .listener(new DialogInterface.OnClickListener() {
@@ -234,17 +245,14 @@ public class NavigationDrawerSettingsFragment extends Fragment {
                 }).show();
 
 
-
-
-
     }
 
-    Utils utils= new Utils();
+    Utils utils = new Utils();
 
-    private  void shareEmail(){
+    private void shareEmail() {
 
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -262,11 +270,11 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
 
-    private  void shareFacebook(){
+    private void shareFacebook() {
 
 
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -275,31 +283,26 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
 
-
         PackageManager pm = getActivity().getPackageManager();
-                List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
-                for (final ResolveInfo app : activityList)
-                {
-                    if ((app.activityInfo.name).contains("facebook"))
-                    {
-                        final ActivityInfo activity = app.activityInfo;
-                        final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
-                        shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                        shareIntent.setComponent(name);
-                        getActivity().startActivity(shareIntent);
-                        break;
-                    }
-                }
+        List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
+        for (final ResolveInfo app : activityList) {
+            if ((app.activityInfo.name).contains("facebook")) {
+                final ActivityInfo activity = app.activityInfo;
+                final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
+                shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                shareIntent.setComponent(name);
+                getActivity().startActivity(shareIntent);
+                break;
+            }
+        }
 
     }
 
 
-
-
-    private void shareTwitter(){
+    private void shareTwitter() {
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -309,8 +312,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
-        for (final ResolveInfo app : activityList)
-        {
+        for (final ResolveInfo app : activityList) {
             if ((app.activityInfo.name).contains("twitter"))//"com.twitter.android.PostActivity".equals(app.activityInfo.name)
             {
                 final ActivityInfo activity = app.activityInfo;
@@ -325,10 +327,10 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
     }
 
-    private  void shareWhatsapp(){
+    private void shareWhatsapp() {
 
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -356,17 +358,13 @@ public class NavigationDrawerSettingsFragment extends Fragment {
     }
 
 
-
-
-
-
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
 
     @OnClick(R.id.rigth_icon)
-    public  void RigthIconClick(){
-        selectItem(-1,0);
+    public void RigthIconClick() {
+        selectItem(-1, 0);
 
         //mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
@@ -384,7 +382,6 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-
 
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -447,23 +444,22 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int grooup ,int childr) {
+    private void selectItem(int grooup, int childr) {
 
 
         mCurrentSelectedPosition = childr;
 
 
-
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(childr, true);
         }
-        filter(grooup,childr);
+        filter(grooup, childr);
 
     }
 
 
-    public  void filter(int group , int childr){
-        if (group == 1 && childr==1){
+    public void filter(int group, int childr) {
+        if (group == 1 && childr == 1) {
             //rate  Blinckr
             final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
             try {
@@ -476,7 +472,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             return;
         }
 
-        if (group == 2 && childr==2){
+        if (group == 2 && childr == 2) {
             //terms
             String url = "www.blinkrapp.co/tos";
             if (!url.startsWith("http://") && !url.startsWith("https://"))
@@ -488,7 +484,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             return;
         }
 
-        if (group == 2 && childr==3){
+        if (group == 2 && childr == 3) {
             //privace
             String url = "www.blinkrapp.co/privacy";
             if (!url.startsWith("http://") && !url.startsWith("https://"))
@@ -500,13 +496,14 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             return;
         }
 
+
+
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(group, childr);
         }
-
 
 
     }
@@ -539,8 +536,6 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         // Forward the new configuration the drawer toggle component.
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
-
 
 
     /**

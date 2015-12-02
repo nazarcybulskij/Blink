@@ -156,35 +156,35 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
             final EditText searchPlate = (EditText) mSearchView.findViewById(searchPlateId);
             searchPlate.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
             searchPlate.setTextColor(getResources().getColor(R.color.orange));
-            searchPlate.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    tmp = s;
-                    if (s.length() == 3) {
-                        LicenseFragment.setTextWithDash(searchPlate, tmp);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            searchPlate.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (searchPlate.length() == 4) {
-                        if (keyCode == KeyEvent.KEYCODE_DEL) {
-                            LicenseFragment.setFirstTwoChar(searchPlate, tmp);
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-            });
+//            searchPlate.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    tmp = s;
+//                    if (s.length() == 3) {
+//                        LicenseFragment.setTextWithDash(searchPlate, tmp);
+//                    }
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable s) {
+//                }
+//            });
+//            searchPlate.setOnKeyListener(new View.OnKeyListener() {
+//                @Override
+//                public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                    if (searchPlate.length() == 4) {
+//                        if (keyCode == KeyEvent.KEYCODE_DEL) {
+//                            LicenseFragment.setFirstTwoChar(searchPlate, tmp);
+//                            return true;
+//                        }
+//                    }
+//                    return false;
+//                }
+//            });
 
             //searchPlate.setTextColor(getResources().getColor(R.color.novoda_blue));
 

@@ -93,6 +93,7 @@ public class MessageFragment extends Fragment {
         super.onStart();
         EventBus.getDefault().registerSticky(this);
     }
+
     @Override
     public void onStop() {
         super.onStart();
@@ -109,120 +110,112 @@ public class MessageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_message, container, false);
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
 
     @OnClick(R.id.left_icon)
-    public void LeftIconClick(){
+    public void LeftIconClick() {
         getActivity().onBackPressed();
     }
 
 
     View header;
 
-    Utils  utils = new Utils();
+    Utils utils = new Utils();
 
 
+    private void fullinfo() {
 
-    private void fullinfo(){
-
-        if (mCommentsList.getHeaderViewsCount()==0) {
+        if (mCommentsList.getHeaderViewsCount() == 0) {
             header = View.inflate(getActivity(), R.layout.header_comment_fragment, null);
             mCommentsList.addHeaderView(header);
         }
 
-            ViewHolder holder;
-            holder = new ViewHolder();
-            holder.ivShare = (ImageView) header.findViewById(R.id.share);
-            holder.tvText= (TextView) header.findViewById(R.id.text);
-            holder.tvName = (TextView) header.findViewById(R.id.name);
-           // holder.ratingBar = (RatingBar) header.findViewById(R.id.ratingBar);
-            holder.tvTime = (TextView) header.findViewById(R.id.time);
-            holder.tvCountsComment = (TextView) header.findViewById(R.id.count_comment);
-            holder.tvName.setText(feed.getLicense());
-           // holder.ratingBar.setRating(feed.getRating().floatValue()*10);
-            Date date = new Date();
-            Date dateuser = feed.getCreatedAt();
-            long diff = date.getTime() - dateuser.getTime();
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
+        ViewHolder holder;
+        holder = new ViewHolder();
+        holder.ivShare = (ImageView) header.findViewById(R.id.share);
+        holder.tvText = (TextView) header.findViewById(R.id.text);
+        holder.tvName = (TextView) header.findViewById(R.id.name);
+        // holder.ratingBar = (RatingBar) header.findViewById(R.id.ratingBar);
+        holder.tvTime = (TextView) header.findViewById(R.id.time);
+        holder.tvCountsComment = (TextView) header.findViewById(R.id.count_comment);
+        holder.tvName.setText(feed.getLicense());
+        // holder.ratingBar.setRating(feed.getRating().floatValue()*10);
+        Date date = new Date();
+        Date dateuser = feed.getCreatedAt();
+        long diff = date.getTime() - dateuser.getTime();
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
 
-            if (diffDays==0){
-                if (diffHours==0){
-                    if(diffMinutes==0){
-                        holder.tvTime.setText(diffSeconds+"s");
-                    }else {
-                        holder.tvTime.setText(diffMinutes+"m");
-                    }
-                }else{
-                    holder.tvTime.setText(diffHours+"h");
+        if (diffDays == 0) {
+            if (diffHours == 0) {
+                if (diffMinutes == 0) {
+                    holder.tvTime.setText(diffSeconds + "s");
+                } else {
+                    holder.tvTime.setText(diffMinutes + "m");
                 }
-            }else{
-                holder.tvTime.setText(diffDays + "d");
+            } else {
+                holder.tvTime.setText(diffHours + "h");
             }
-
-
-        if (feed.getCommentsNumber().intValue()==0){
-            holder.tvCountsComment.setVisibility(View.INVISIBLE);
-        }else{
-            holder.tvCountsComment.setVisibility(View.VISIBLE);
-            holder.tvCountsComment.setText(feed.getCommentsNumber()+" Comments");
+        } else {
+            holder.tvTime.setText(diffDays + "d");
         }
 
 
+        if (feed.getCommentsNumber().intValue() == 0) {
+            holder.tvCountsComment.setVisibility(View.INVISIBLE);
+        } else {
+            holder.tvCountsComment.setVisibility(View.VISIBLE);
+            holder.tvCountsComment.setText(feed.getCommentsNumber() + " Comments");
+        }
 
 
+        holder.tvText.setText(feed.getStatus());
+        holder.ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
+                        .sheet(R.menu.menu_bottom_sheet_report)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-            holder.tvText.setText(feed.getStatus());
-            holder.ivShare.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new BottomSheet.Builder(getActivity(), R.style.BottomSheet_Dialog)
-                            .sheet(R.menu.menu_bottom_sheet_report)
-                            .listener(new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                                utils.saveFile(utils.getBitmapFromView(mCommentsList));
 
-                            utils.saveFile(utils.getBitmapFromView(mCommentsList));
+                                switch (which) {
+                                    case R.id.Report:
+                                        report();
+                                        break;
+                                    case R.id.Email:
+                                        shareEmail();
+                                        break;
+                                    case R.id.Facebook:
+                                        shareFacebook();
+                                        break;
+                                    case R.id.Twitter:
+                                        shareTwitter();
 
-                            switch (which) {
-                                case R.id.Report:
-                                    report();
-                                    break;
-                                case R.id.Email:
-                                    shareEmail();
-                                    break;
-                                case R.id.Facebook:
-                                    shareFacebook();
-                                    break;
-                                case R.id.Twitter:
-                                    shareTwitter();
+                                        break;
+                                    case R.id.Whatsapp:
+                                        shareWhatsapp();
+                                        break;
 
-                                    break;
-                                case R.id.Whatsapp:
-                                    shareWhatsapp();
-                                    break;
 
+                                }
 
                             }
+                        }).show();
 
-                        }
-                            }).show();
-
-                }
-            });
+            }
+        });
 
 
-
-
-
-
-        if (mCommentAdapter == null){
+        if (mCommentAdapter == null) {
             mCommentAdapter = new CommentAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<Comment>() {
                 @Override
                 public ParseQuery<Comment> create() {
@@ -231,21 +224,21 @@ public class MessageFragment extends Fragment {
                     query.addAscendingOrder("createdAt");
                     return query;
                 }
-            },R.layout.item_comment);
+            }, R.layout.item_comment);
 
             mCommentAdapter.setAutoload(true);
             // Disable pagination, we'll manage the query limit ourselves
             mCommentAdapter.setPaginationEnabled(false);
 
             mCommentsList.setAdapter(mCommentAdapter);
-        }else{
+        } else {
             mCommentAdapter.loadObjects();
         }
 
 
     }
 
-    public void report(){
+    public void report() {
 
         Number number = feed.getReportsCount();
 
@@ -254,8 +247,8 @@ public class MessageFragment extends Fragment {
         feed.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e==null){
-                    Toast.makeText(getActivity(),"Report sent.",Toast.LENGTH_LONG).show();
+                if (e == null) {
+                    Toast.makeText(getActivity(), "Report sent.", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -264,10 +257,10 @@ public class MessageFragment extends Fragment {
     }
 
 
-    private  void shareEmail(){
+    private void shareEmail() {
 
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -285,11 +278,11 @@ public class MessageFragment extends Fragment {
         getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
 
-    private  void shareFacebook(){
+    private void shareFacebook() {
 
 
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -298,13 +291,10 @@ public class MessageFragment extends Fragment {
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
 
-
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
-        for (final ResolveInfo app : activityList)
-        {
-            if ((app.activityInfo.name).contains("facebook"))
-            {
+        for (final ResolveInfo app : activityList) {
+            if ((app.activityInfo.name).contains("facebook")) {
                 final ActivityInfo activity = app.activityInfo;
                 final ComponentName name = new ComponentName(activity.applicationInfo.packageName, activity.name);
                 shareIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -318,11 +308,9 @@ public class MessageFragment extends Fragment {
     }
 
 
-
-
-    private void shareTwitter(){
+    private void shareTwitter() {
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -332,8 +320,7 @@ public class MessageFragment extends Fragment {
 
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT);
-        for (final ResolveInfo app : activityList)
-        {
+        for (final ResolveInfo app : activityList) {
             if ((app.activityInfo.name).contains("twitter"))//"com.twitter.android.PostActivity".equals(app.activityInfo.name)
             {
                 final ActivityInfo activity = app.activityInfo;
@@ -348,10 +335,10 @@ public class MessageFragment extends Fragment {
 
     }
 
-    private  void shareWhatsapp(){
+    private void shareWhatsapp() {
 
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
-        File filePath =  new File(filename);  //optional //internal storage
+        File filePath = new File(filename);  //optional //internal storage
         Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         //shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "dvfgbf");
         //shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "chfh");
@@ -379,11 +366,10 @@ public class MessageFragment extends Fragment {
     }
 
 
-
     @OnClick(R.id.btn_post)
-    public void onPostComment(View v){
+    public void onPostComment(View v) {
         String text = mTextSend.getText().toString();
-        if (text.trim().equals("")){
+        if (text.trim().equals("")) {
             return;
         }
         final Comment comment = new Comment();
@@ -394,7 +380,7 @@ public class MessageFragment extends Fragment {
         comment.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e==null){
+                if (e == null) {
                     ParseQuery query = ParseQuery.getQuery(Feed.class);
                     query.getInBackground(feed.getObjectId(), new GetCallback() {
                         @Override
@@ -408,7 +394,7 @@ public class MessageFragment extends Fragment {
                             feed.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    if (e==null){
+                                    if (e == null) {
                                         ParseQuery query = ParseInstallation.getQuery();
                                         query.whereEqualTo("owner", comment.getUser().getObjectId());
                                         query.whereEqualTo("deviceType", "android");
@@ -431,8 +417,10 @@ public class MessageFragment extends Fragment {
 
 
                                         ParsePush parsePush = new ParsePush();
-                                        ParseQuery pQuery =  ParseInstallation.getCurrentInstallation().getQuery();
+                                        ParseQuery pQuery = ParseInstallation.getCurrentInstallation().getQuery();
                                         pQuery.whereEqualTo("license", feed.getLicense());
+                                        pQuery.whereEqualTo("deviceType", "android");
+                                        pQuery.whereEqualTo("deviceType", "ios");
                                         parsePush.sendMessageInBackground("your post received a comment.", pQuery);
 
                                         fullinfo();
@@ -450,7 +438,7 @@ public class MessageFragment extends Fragment {
 
     }
 
-    public void onEvent(FeedEvent event){
+    public void onEvent(FeedEvent event) {
         feed = event.getFeed();
         fullinfo();
     }
@@ -460,10 +448,9 @@ public class MessageFragment extends Fragment {
         TextView tvName;
         TextView tvTime;
         ImageView ivShare;
-       // RatingBar ratingBar;
+        // RatingBar ratingBar;
         TextView tvCountsComment;
     }
-
 
 
 }

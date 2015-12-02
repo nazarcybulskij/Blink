@@ -219,7 +219,10 @@ public class NewMessageFragment extends Fragment {
         ParsePush parsePush = new ParsePush();
         ParseQuery pQuery =  ParseInstallation.getCurrentInstallation().getQuery();
         pQuery.whereEqualTo("license", plate);
+        pQuery.whereEqualTo("deviceType", "android");
+        pQuery.whereEqualTo("deviceType", "ios");
         parsePush.sendMessageInBackground("someone mentions your saved license plate", pQuery);
+
     }
     @OnClick(R.id.left_icon)
     public void LeftIconClick() {

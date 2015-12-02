@@ -3,10 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
     android:paddingBottom="16dp"
     android:background="@color/gray">
-
 
     <TextView
         android:id="@+id/textChild"
@@ -15,7 +13,6 @@
         android:paddingLeft="20dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:layout_marginTop="20dp"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="20sp"
         android:text="Report Issues"
@@ -31,7 +28,6 @@
         android:gravity="center"
         android:text="Blinkr Version 1.2"
         />
-
 
 
 
