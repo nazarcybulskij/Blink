@@ -1,6 +1,6 @@
 package nazar.cybulskij.blinkr;
 
-import android.app.Application;
+import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,7 +18,6 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
-import com.parse.PushService;
 import com.parse.SaveCallback;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -41,6 +40,8 @@ public class App extends MultiDexApplication {
     public static boolean isLogIn;
 
 
+    private AuthCallback authCallback;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -50,8 +51,24 @@ public class App extends MultiDexApplication {
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Crashlytics(), new TwitterCore(authConfig), new Digits());
+<<<<<<< HEAD
         Fabric.with(this, new TwitterCore(authConfig), new Digits());
 
+=======
+        authCallback = new AuthCallback() {
+            @Override
+            public void success(DigitsSession session, String phoneNumber) {
+                Toast.makeText(getApplicationContext(), "Authentication Successful for " + phoneNumber, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(DigitsException exception) {
+                Toast.makeText(getApplicationContext(),"Failed to verify credentials", Toast.LENGTH_LONG).show();
+            }
+        };
+>>>>>>> 34bf2508fb09ca4c852f27143ff7cbdd50b0bc66
         ParseObject.registerSubclass(Feed.class);
         ParseObject.registerSubclass(Comment.class);
         Parse.enableLocalDatastore(this);
@@ -119,5 +136,10 @@ public class App extends MultiDexApplication {
         installation.put("license","");
         installation.saveInBackground();
         isLogIn = false;
+    }
+
+
+    public AuthCallback getAuthCallback(){
+        return authCallback;
     }
 }
