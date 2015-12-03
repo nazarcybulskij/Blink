@@ -2,6 +2,7 @@ package nazar.cybulskij.blinkr;
 
 import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.parse.SaveCallback;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 
+import clojure.test.junit$failure_el;
 import io.fabric.sdk.android.Fabric;
 import nazar.cybulskij.blinkr.model.Comment;
 import nazar.cybulskij.blinkr.model.Feed;
@@ -36,51 +38,23 @@ public class App extends MultiDexApplication {
     private static final String TWITTER_KEY = "hluqFPKtfdEeE9cVoXZsksjdE";
     private static final String TWITTER_SECRET = "G5pIcD45KmDnoKbeOl2jA6qhyc4t77DZE5yPpHz81QmGDiygMq";
     public static AuthCallback authCallback;
-    public static String phoneNumberId;
-    public static boolean isLogIn;
-
-
-    private AuthCallback authCallback;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        isLogIn = false;
-        phoneNumberId = "";
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Crashlytics(), new TwitterCore(authConfig), new Digits());
-<<<<<<< HEAD
-        Fabric.with(this, new TwitterCore(authConfig), new Digits());
 
-=======
-        authCallback = new AuthCallback() {
-            @Override
-            public void success(DigitsSession session, String phoneNumber) {
-                Toast.makeText(getApplicationContext(), "Authentication Successful for " + phoneNumber, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void failure(DigitsException exception) {
-                Toast.makeText(getApplicationContext(),"Failed to verify credentials", Toast.LENGTH_LONG).show();
-            }
-        };
->>>>>>> 34bf2508fb09ca4c852f27143ff7cbdd50b0bc66
+//>>>>>>> 34bf2508fb09ca4c852f27143ff7cbdd50b0bc66
         ParseObject.registerSubclass(Feed.class);
         ParseObject.registerSubclass(Comment.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parseAppID), getString(R.string.parseClientID));
 
-
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        String userID = installation.getString("phoneNumber");
-        if (userID != null && !userID.equals("0")) {
-            phoneNumberId = userID;
-            isLogIn = true;
-        }
+
 
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
@@ -88,7 +62,6 @@ public class App extends MultiDexApplication {
                 Log.e("PARSE", "Successfully subscribed to Parse!");
             }
         });
-
         if (ParseUser.getCurrentUser() == null) {
             ParseAnonymousUtils.logIn(new LogInCallback() {
                 @Override
@@ -107,20 +80,13 @@ public class App extends MultiDexApplication {
             curent.put("username", ParseUser.getCurrentUser().getUsername());
             curent.saveInBackground();
         }
-
         authCallback = new AuthCallback() {
             @Override
             public void success(DigitsSession session, String phoneNumber) {
                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                 installation.put("phoneNumber", phoneNumber);
                 installation.saveInBackground();
-                String userID = installation.getString("phoneNumber");
-                if (userID != null) {
-                    phoneNumberId = userID;
-                    isLogIn = true;
-                }
             }
-
             @Override
             public void failure(DigitsException exception) {
                 Log.i("LogIn", "failure: " + exception.toString());
@@ -132,14 +98,9 @@ public class App extends MultiDexApplication {
     }
     public static void logOut(){
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("phoneNumber", "0");
-        installation.put("license","");
+        installation.put("phoneNumber", "");
+        installation.put("license", "");
         installation.saveInBackground();
-        isLogIn = false;
-    }
 
-
-    public AuthCallback getAuthCallback(){
-        return authCallback;
     }
 }

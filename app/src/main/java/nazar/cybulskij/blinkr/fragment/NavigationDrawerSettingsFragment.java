@@ -35,6 +35,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.cocosw.bottomsheet.BottomSheet;
+import com.digits.sdk.android.Digits;
 import com.parse.ParseInstallation;
 
 import java.io.File;
@@ -173,11 +174,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
                     utils.saveFile(utils.getBitmapFromView(getView()));
                     showSheet();
                 } else {
-                    if (groupPosition == 4 && childPosition == 0){
-                        App.logOut();
-                    }else {
-                        selectItem(groupPosition, childPosition);
-                    }
+                    selectItem(groupPosition, childPosition);
                 }
                 return false;
             }
@@ -187,16 +184,16 @@ public class NavigationDrawerSettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 /* Create the Intent */
-                        final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
 
                 /* Fill it with Data */
-                        emailIntent.setType("message/rfc822");
-                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@blinkrapp.com"});
-                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"support@blinkrapp.com"});
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 
                 /* Send it off to the Activity-Chooser */
-                        getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
             }
         });
 
@@ -495,7 +492,6 @@ public class NavigationDrawerSettingsFragment extends Fragment {
 
             return;
         }
-
 
 
         if (mDrawerLayout != null) {

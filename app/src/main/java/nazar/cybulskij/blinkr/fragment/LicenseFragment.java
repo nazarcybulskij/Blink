@@ -11,37 +11,31 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.Digits;
-import com.digits.sdk.android.DigitsAuthButton;
-import com.digits.sdk.android.DigitsException;
-import com.digits.sdk.android.DigitsSession;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterCore;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.fabric.sdk.android.Fabric;
 import nazar.cybulskij.blinkr.App;
 import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
@@ -111,21 +105,15 @@ public class LicenseFragment extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-
         return view;
     }
-
     private void init() {
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         String license = installation.getString("license");
-        if (App.isLogIn) {
-            if (license != null) {
+            if (!TextUtils.isEmpty(license)) {
                 mtvLicense.setText(license);
             }
-            App.phoneNumberId = installation.getString("phoneNumber");
-        }
     }
-
     public static void setTextWithDash(EditText view, CharSequence text) {
         if (text.charAt(text.length() - 1) != '-') {
             text = text.subSequence(0, 2) + "-" + text.subSequence(2, 3);
@@ -133,22 +121,20 @@ public class LicenseFragment extends Fragment {
             view.setSelection(view.length());
         }
     }
-
     public static void setFirstTwoChar(EditText view, CharSequence text) {
 
         view.setText(text.subSequence(0, 2));
         view.setSelection(view.length());
     }
-
     @OnClick(R.id.left_icon)
     public void LeftIconClick() {
         ((MainActivity) getActivity()).openDrawer();
         hideKeyboard(getActivity());
     }
-
     @OnClick(R.id.save_license)
     public void onSaveLicense() {
-        if (App.phoneNumberId.equals("")) {
+        ParseInstallation install = ParseInstallation.getCurrentInstallation();
+        if (TextUtils.isEmpty(install.getString("phoneNumber"))) {
             final String license = mtvLicense.getText().toString().replace(" ", "");
             if (license.length() < 4) {
                 Toast.makeText(getActivity(), "Please Enter License Plate #", Toast.LENGTH_LONG).show();
@@ -158,10 +144,10 @@ public class LicenseFragment extends Fragment {
                 installation.put("license", license);
                 installation.saveInBackground();
                 hideKeyboard(getActivity());
-                alert();
+                makeAlertAfter1Sec();
             }
         } else {
-            alert();
+            makeAlert();
         }
     }
 
@@ -201,9 +187,10 @@ public class LicenseFragment extends Fragment {
         return view;
     }
 
-    public void alert() {
+    public void makeAlert() {
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Phone number: " + App.phoneNumberId)
+        builder.setTitle("Phone number: " + installation.getString("phoneNumber"))
                 .setMessage("You have successfully added your phone number and license plate #.")
                 .setCancelable(false)
                 .setNegativeButton("ОК",
@@ -214,6 +201,15 @@ public class LicenseFragment extends Fragment {
                         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+    public void makeAlertAfter1Sec (){
+        new Timer().schedule(new TimerTask() {
+            public void run() {
+                Log.w("General", "This has been called one second later");
+                cancel();
+            }
+        }, 1000);
+        makeAlert();
     }
 
 }

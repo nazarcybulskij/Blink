@@ -403,7 +403,7 @@ public class MessageFragment extends Fragment {
                                         try {
                                             data.put("postid", comment.getObjectId());
                                             data.put("badge", "Increment");
-                                            data.put("alert", "comment");
+                                            data.put("makeAlert", "comment");
                                         } catch (JSONException e1) {
                                             e1.printStackTrace();
                                         }

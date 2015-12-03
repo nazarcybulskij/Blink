@@ -39,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.digits.sdk.android.Digits;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -46,6 +47,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseGeoPoint;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.greenrobot.event.EventBus;
 import icepick.Icepick;
@@ -262,11 +266,22 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             return;
         }
 
-
-
-
-
-
+        if (group == 3 && childr == 0){
+            App.logOut();
+            Digits.getSessionManager().clearActiveSession();
+            new Timer().schedule(new TimerTask() {
+                public void run() {
+                    Log.w("General", "This has been called one second later");
+                    cancel();
+                }
+            }, 1000);
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, LicenseFragment.newInstance(), "license")
+                    .commit();
+            stateDrawer = false;
+            return;
+        }
 
         if (group == 2 && childr==0){
             FragmentManager fragmentManager = getFragmentManager();
