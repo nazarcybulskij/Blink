@@ -17,10 +17,12 @@
 package nazar.cybulskij.blinkr;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.res.Configuration;
@@ -46,7 +48,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
+import com.parse.SaveCallback;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -231,7 +236,6 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
         drawer.openDrawer(Gravity.LEFT);
         stateDrawer = true;
-
     }
 
     public  void closeDrawer(){
@@ -239,6 +243,39 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         drawer.closeDrawer(Gravity.LEFT);
         stateDrawer = false;
 
+    }
+
+    public LicenseFragment newInstance() {
+        LicenseFragment fragment = new LicenseFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public void logOut(){
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("phoneNumber", "");
+        installation.put("license", "");
+        installation.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                makeAlert();
+            }
+        });
+    }
+
+    public void makeAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You have successfully sign out.")
+                .setCancelable(false)
+                .setNegativeButton("ОК",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -260,14 +297,14 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         if (group == 0 && childr==2){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, LicenseFragment.newInstance(),"license")
+                    .replace(R.id.content_frame, newInstance(),"license")
                     .commit();
             stateDrawer = false;
             return;
         }
 
         if (group == 3 && childr == 0){
-            App.logOut();
+            logOut();
             Digits.getSessionManager().clearActiveSession();
             new Timer().schedule(new TimerTask() {
                 public void run() {
@@ -277,7 +314,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             }, 1000);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, LicenseFragment.newInstance(), "license")
+                    .replace(R.id.content_frame, newInstance(), "license")
                     .commit();
             stateDrawer = false;
             return;
@@ -300,16 +337,6 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             stateDrawer = false;
             return;
         }
-
-
-
-
-
-
-
-
-
-
 
         if (group == 0 && childr==1){
             FragmentManager fragmentManager = getFragmentManager();

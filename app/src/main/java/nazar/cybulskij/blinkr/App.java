@@ -1,16 +1,7 @@
 package nazar.cybulskij.blinkr;
 
-import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.crashlytics.android.Crashlytics;
-import com.digits.sdk.android.AuthCallback;
-import com.digits.sdk.android.Digits;
-import com.digits.sdk.android.DigitsException;
-import com.digits.sdk.android.DigitsSession;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
@@ -20,11 +11,6 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-
-import clojure.test.junit$failure_el;
-import io.fabric.sdk.android.Fabric;
 import nazar.cybulskij.blinkr.model.Comment;
 import nazar.cybulskij.blinkr.model.Feed;
 
@@ -34,32 +20,22 @@ import nazar.cybulskij.blinkr.model.Feed;
  */
 public class App extends MultiDexApplication {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "hluqFPKtfdEeE9cVoXZsksjdE";
-    private static final String TWITTER_SECRET = "G5pIcD45KmDnoKbeOl2jA6qhyc4t77DZE5yPpHz81QmGDiygMq";
-    public static AuthCallback authCallback;
+    private static final String USERNAME_KEY= "username";
+    private static final String LOG_KEY= "PARSE";
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Crashlytics(), new TwitterCore(authConfig), new Digits());
-
 //>>>>>>> 34bf2508fb09ca4c852f27143ff7cbdd50b0bc66
         ParseObject.registerSubclass(Feed.class);
         ParseObject.registerSubclass(Comment.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parseAppID), getString(R.string.parseClientID));
-
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-
-
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Log.e("PARSE", "Successfully subscribed to Parse!");
+                Log.e(LOG_KEY, "Successfully subscribed to Parse!");
             }
         });
         if (ParseUser.getCurrentUser() == null) {
@@ -67,40 +43,23 @@ public class App extends MultiDexApplication {
                 @Override
                 public void done(ParseUser user, ParseException e) {
                     if (e == null) {
-                        ParseInstallation curent = ParseInstallation.getCurrentInstallation();
-                        // curent.setObjectId("owner");
-                        curent.put("username", ParseUser.getCurrentUser().getUsername());
-                        curent.saveInBackground();
+                        saveUsername();
                     }
                 }
             });
         } else {
-            ParseInstallation curent = ParseInstallation.getCurrentInstallation();
-            //  curent.setObjectId("owner");
-            curent.put("username", ParseUser.getCurrentUser().getUsername());
-            curent.saveInBackground();
+            saveUsername ();
         }
-        authCallback = new AuthCallback() {
-            @Override
-            public void success(DigitsSession session, String phoneNumber) {
-                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                installation.put("phoneNumber", phoneNumber);
-                installation.saveInBackground();
-            }
-            @Override
-            public void failure(DigitsException exception) {
-                Log.i("LogIn", "failure: " + exception.toString());
-            }
-        };
     }
-    public  static AuthCallback getAuthCallback(){
-        return authCallback;
-    }
-    public static void logOut(){
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("phoneNumber", "");
-        installation.put("license", "");
-        installation.saveInBackground();
 
+    private void saveUsername () {
+        ParseInstallation curent = ParseInstallation.getCurrentInstallation();
+        curent.put(USERNAME_KEY, ParseUser.getCurrentUser().getUsername());
+        curent.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.e(LOG_KEY, "Successfully saved username!");
+            }
+        });
     }
 }

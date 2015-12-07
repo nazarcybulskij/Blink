@@ -18,16 +18,12 @@ import nazar.cybulskij.blinkr.R;
  */
 public class AboutFragment   extends Fragment {
 
-
-
     public static AboutFragment newInstance() {
         AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
     @Nullable
     @Override
@@ -37,11 +33,8 @@ public class AboutFragment   extends Fragment {
         return view;
     }
 
-
     @OnClick(R.id.left_icon)
-    public void LeftIconClick(){
+    public void BackIconClick(){
         ((MainActivity)getActivity()).openDrawer();
     }
-
-
 }

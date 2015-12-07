@@ -20,6 +20,7 @@
         <item name="android:windowBackground">@color/orange</item>
         <item name="android:textColorLink">#dadada</item>
         <item name="dgts__accentColor">#d1d1d1</item>
+        <item name="android:icon">@drawable/icon</item>
     </style>
 
 </resources>

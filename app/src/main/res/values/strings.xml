@@ -54,7 +54,7 @@ ready to go.\n\n
     <string name="parseAppID">bgdqHdHU1Zpc9sCFKeQ0IAU0bgz9UDXpNfXu549Q</string>
     <string name="parseClientID">vmXiZkOBveJhHjgO7ZhDpVyAkaoc2h08tvvX4AV2</string>
     
-    <string-array name="Shtats_for_licelce">
+    <string-array name="States_for_licelse">
         <item>Alabama - AL</item>
         <item>Alaska - AK</item>
         <item>Arizona - AZ</item>

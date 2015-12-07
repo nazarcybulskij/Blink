@@ -1,14 +1,9 @@
 package nazar.cybulskij.blinkr.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -18,179 +13,170 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.Digits;
+import com.digits.sdk.android.DigitsException;
+import com.digits.sdk.android.DigitsSession;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.SaveCallback;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.Bind;
 import butterknife.OnClick;
-import nazar.cybulskij.blinkr.App;
+
+import android.support.annotation.Nullable;
+
+import io.fabric.sdk.android.Fabric;
 import nazar.cybulskij.blinkr.MainActivity;
 import nazar.cybulskij.blinkr.R;
-import nazar.cybulskij.blinkr.adapter.AutoCompleteAdapter;
+import nazar.cybulskij.blinkr.interfaces.AutoCompleteCallBack;
 
 /**
  * Created by nazar on 13.10.15.
  */
-public class LicenseFragment extends Fragment {
-    public void setMtvLicense(AutoCompleteTextView mtvLicense) {
-        this.mtvLicense = mtvLicense;
-    }
-
+public class LicenseFragment extends AutoCompleteFragment {
     @Bind(R.id.license)
     public AutoCompleteTextView mtvLicense;
-    private CharSequence tmp;
-
-    public static LicenseFragment newInstance() {
-        LicenseFragment fragment = new LicenseFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private CharSequence currentString;
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "hluqFPKtfdEeE9cVoXZsksjdE";
+    private static final String TWITTER_SECRET = "G5pIcD45KmDnoKbeOl2jA6qhyc4t77DZE5yPpHz81QmGDiygMq";
+    private String license;
+    private static final int STRING_LENGTH = 3;
+    private static final int MIN_STRING_LENGTH = 4;
+    private static final String LICENSE_KEY = "license";
+    private static final String PHONE_NUMBER_KEY = "phoneNumber";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_license, container, false);
         ButterKnife.bind(this, view);
-        init();
-        String[] licenceShtats = getResources().getStringArray(R.array.Shtats_for_licelce);
-        autoCompleteCreator(getActivity(), mtvLicense, licenceShtats);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(getActivity(), new Crashlytics(), new TwitterCore(authConfig), new Digits());
+        showCurrentLicense();
+        String[] licenseStates = getResources().getStringArray(R.array.States_for_licelse);
+        createAutoComplete(getActivity(), mtvLicense, createListOfStates(licenseStates), getAutoCompleteCallback(mtvLicense));
         mtvLicense.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-        mtvLicense.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (mtvLicense.length() == 4) {
-                    if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        setFirstTwoChar(mtvLicense, tmp);
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-        mtvLicense.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mtvLicense.getText().toString().trim().length() >= 4) {
-                    Drawable indiactor = getResources().getDrawable(R.drawable.greencheck);
-                    mtvLicense.setCompoundDrawablesWithIntrinsicBounds(null, null, indiactor, null);
-                } else {
-                    mtvLicense.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                }
-                tmp = s;
-                if (s.length() == 3) {
-                    setTextWithDash(mtvLicense, tmp);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        mtvLicense.setOnKeyListener(keyListener);
+        mtvLicense.addTextChangedListener(watcher);
         return view;
     }
-    private void init() {
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        String license = installation.getString("license");
-            if (!TextUtils.isEmpty(license)) {
-                mtvLicense.setText(license);
+
+    private View.OnKeyListener keyListener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            if (mtvLicense.length() == MIN_STRING_LENGTH && keyCode == KeyEvent.KEYCODE_DEL) {
+                setFirstTwoChar(mtvLicense, currentString);
+                return true;
             }
-    }
-    public static void setTextWithDash(EditText view, CharSequence text) {
-        if (text.charAt(text.length() - 1) != '-') {
-            text = text.subSequence(0, 2) + "-" + text.subSequence(2, 3);
-            view.setText(text);
-            view.setSelection(view.length());
+            return false;
+        }
+    };
+    private TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mtvLicense.getText().toString().trim().length() >= MIN_STRING_LENGTH) {
+                Drawable indicator = getResources().getDrawable(R.drawable.greencheck);
+                mtvLicense.setCompoundDrawablesWithIntrinsicBounds(null, null, indicator, null);
+            } else {
+                mtvLicense.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            }
+            currentString = s;
+            if (s.length() == STRING_LENGTH) {
+                setTextWithDash(mtvLicense, currentString);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+    private void showCurrentLicense() {
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        String license = installation.getString(LICENSE_KEY);
+        if (!TextUtils.isEmpty(license)) {
+            mtvLicense.setText(license);
+            mtvLicense.setSelection(mtvLicense.length());
         }
     }
-    public static void setFirstTwoChar(EditText view, CharSequence text) {
 
-        view.setText(text.subSequence(0, 2));
-        view.setSelection(view.length());
-    }
     @OnClick(R.id.left_icon)
-    public void LeftIconClick() {
+    public void showDrawerList() {
         ((MainActivity) getActivity()).openDrawer();
         hideKeyboard(getActivity());
     }
+
     @OnClick(R.id.save_license)
     public void onSaveLicense() {
-        ParseInstallation install = ParseInstallation.getCurrentInstallation();
-        if (TextUtils.isEmpty(install.getString("phoneNumber"))) {
-            final String license = mtvLicense.getText().toString().replace(" ", "");
-            if (license.length() < 4) {
-                Toast.makeText(getActivity(), "Please Enter License Plate #", Toast.LENGTH_LONG).show();
-            } else {
-                Digits.authenticate(App.getAuthCallback(), R.style.CustomDigitsTheme);
-                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                installation.put("license", license);
-                installation.saveInBackground();
-                hideKeyboard(getActivity());
-                makeAlertAfter1Sec();
-            }
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        if (TextUtils.isEmpty(installation.getString(PHONE_NUMBER_KEY))) {
+            checkLicensePlate();
         } else {
             makeAlert();
         }
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
+    private void checkLicensePlate() {
+        license = mtvLicense.getText().toString().replace(" ", "");
+        if (license.length() < 4) {
+            Toast.makeText(getActivity(), "Please Enter License Plate #", Toast.LENGTH_LONG).show();
+        } else {
+            logIn();
         }
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static View autocompleteTextTransformer(final AutoCompleteTextView textView) {
-        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public void logIn() {
+        Digits.authenticate(authCallback, R.style.CustomDigitsTheme);
+    }
+
+    private AuthCallback authCallback = new AuthCallback() {
+        @Override
+        public void success(DigitsSession session, String phoneNumber) {
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put(PHONE_NUMBER_KEY, phoneNumber);
+            installation.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    saveLicense(license);
+                }
+            });
+        }
+
+        @Override
+        public void failure(DigitsException exception) {
+            Log.i("LogIn", "failure: " + exception.toString());
+        }
+    };
+
+    private void saveLicense(String license) {
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put(LICENSE_KEY, license);
+        installation.saveInBackground(new SaveCallback() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str = (String) parent.getItemAtPosition(position);
-                textView.setText(str.subSequence(str.length() - 2, str.length()));
-                textView.setSelection(textView.length());
-                view.setBackgroundColor(Color.GRAY);
+            public void done(ParseException e) {
+                hideKeyboard(getActivity());
+                makeAlert();
             }
         });
-        return textView;
-    }
-
-    public static View autoCompleteCreator(Context context, AutoCompleteTextView view, String[] strArray) {
-        ArrayList<String> list = new ArrayList<>();
-        for (String str : strArray) {
-            list.add(str);
-        }
-        AutoCompleteAdapter customAdapter = new AutoCompleteAdapter(context, R.layout.item_autocomplete, list);
-        view.setAdapter(customAdapter);
-        autocompleteTextTransformer(view);
-        view.setThreshold(0);
-        return view;
     }
 
     public void makeAlert() {
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Phone number: " + installation.getString("phoneNumber"))
+        builder.setTitle("Phone number: " + installation.getString(PHONE_NUMBER_KEY))
                 .setMessage("You have successfully added your phone number and license plate #.")
                 .setCancelable(false)
                 .setNegativeButton("ОК",
@@ -202,14 +188,4 @@ public class LicenseFragment extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
-    public void makeAlertAfter1Sec (){
-        new Timer().schedule(new TimerTask() {
-            public void run() {
-                Log.w("General", "This has been called one second later");
-                cancel();
-            }
-        }, 1000);
-        makeAlert();
-    }
-
 }

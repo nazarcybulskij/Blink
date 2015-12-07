@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,13 +69,10 @@ public class MessageFragment extends Fragment {
 
     @Bind(R.id.list)
     ListView mCommentsList;
-
     Feed feed;
-
     CommentAdapter mCommentAdapter;
     @Bind(R.id.et_text_post)
     EditText mTextSend;
-
 
     public static MessageFragment newInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -100,12 +98,10 @@ public class MessageFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
-
 
     @Nullable
     @Override
@@ -115,17 +111,13 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
-
     @OnClick(R.id.left_icon)
-    public void LeftIconClick() {
+    public void BackIconClick() {
         getActivity().onBackPressed();
     }
 
-
     View header;
-
     Utils utils = new Utils();
-
 
     private void fullinfo() {
 
@@ -133,7 +125,6 @@ public class MessageFragment extends Fragment {
             header = View.inflate(getActivity(), R.layout.header_comment_fragment, null);
             mCommentsList.addHeaderView(header);
         }
-
         ViewHolder holder;
         holder = new ViewHolder();
         holder.ivShare = (ImageView) header.findViewById(R.id.share);
@@ -151,7 +142,6 @@ public class MessageFragment extends Fragment {
         long diffMinutes = diff / (60 * 1000) % 60;
         long diffHours = diff / (60 * 60 * 1000) % 24;
         long diffDays = diff / (24 * 60 * 60 * 1000);
-
         if (diffDays == 0) {
             if (diffHours == 0) {
                 if (diffMinutes == 0) {
@@ -213,8 +203,6 @@ public class MessageFragment extends Fragment {
 
             }
         });
-
-
         if (mCommentAdapter == null) {
             mCommentAdapter = new CommentAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<Comment>() {
                 @Override
@@ -239,10 +227,7 @@ public class MessageFragment extends Fragment {
     }
 
     public void report() {
-
         Number number = feed.getReportsCount();
-
-
         feed.increment("Reports");
         feed.saveInBackground(new SaveCallback() {
             @Override
@@ -250,15 +235,12 @@ public class MessageFragment extends Fragment {
                 if (e == null) {
                     Toast.makeText(getActivity(), "Report sent.", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 
     }
 
-
     private void shareEmail() {
-
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
         File filePath = new File(filename);  //optional //internal storage
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -267,13 +249,11 @@ public class MessageFragment extends Fragment {
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filePath));
         emailIntent.setType("image/jpeg");
         emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
                 /* Fill it with Data */
         emailIntent.setType("message/rfc822");
         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{""});
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-
                 /* Send it off to the Activity-Chooser */
         getActivity().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
@@ -290,7 +270,6 @@ public class MessageFragment extends Fragment {
         shareIntent.setType("image/jpeg");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
         for (final ResolveInfo app : activityList) {
@@ -306,7 +285,6 @@ public class MessageFragment extends Fragment {
         }
 
     }
-
 
     private void shareTwitter() {
         String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bitmap.png";
@@ -346,7 +324,6 @@ public class MessageFragment extends Fragment {
         shareIntent.setType("image/jpeg");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activityList = pm.queryIntentActivities(shareIntent, 0);
         for (final ResolveInfo app : activityList) {
@@ -365,18 +342,16 @@ public class MessageFragment extends Fragment {
 
     }
 
-
     @OnClick(R.id.btn_post)
     public void onPostComment(View v) {
         String text = mTextSend.getText().toString();
-        if (text.trim().equals("")) {
+        if (TextUtils.isEmpty(text.trim())) {
             return;
         }
         final Comment comment = new Comment();
         comment.setUser(ParseUser.getCurrentUser());
         comment.setFeed(feed);
         comment.setCommentText(text);
-
         comment.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -387,7 +362,6 @@ public class MessageFragment extends Fragment {
                         public void done(ParseObject object, ParseException e) {
 
                         }
-
                         @Override
                         public void done(Object o, Throwable throwable) {
                             feed.increment("CommentsNumber");
@@ -408,21 +382,17 @@ public class MessageFragment extends Fragment {
                                             e1.printStackTrace();
                                         }
 
-
                                         ParsePush push = new ParsePush();
                                         push.setQuery(query);
                                         push.setData(data);
                                         push.sendInBackground();
                                         mTextSend.setText("");
-
-
                                         ParsePush parsePush = new ParsePush();
                                         ParseQuery pQuery = ParseInstallation.getCurrentInstallation().getQuery();
                                         pQuery.whereEqualTo("license", feed.getLicense());
                                         pQuery.whereEqualTo("deviceType", "android");
                                         pQuery.whereEqualTo("deviceType", "ios");
                                         parsePush.sendMessageInBackground("your post received a comment.", pQuery);
-
                                         fullinfo();
                                     }
                                 }
@@ -434,8 +404,6 @@ public class MessageFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
     public void onEvent(FeedEvent event) {
@@ -451,6 +419,4 @@ public class MessageFragment extends Fragment {
         // RatingBar ratingBar;
         TextView tvCountsComment;
     }
-
-
 }

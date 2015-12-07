@@ -26,8 +26,6 @@ public class ContentFragment  extends Fragment {
     private ViewPager mPager;
     private PageAdapter mAdapter;
 
-
-
     public ContentFragment() {
         // Empty constructor required for fragment subclasses
     }
@@ -40,16 +38,11 @@ public class ContentFragment  extends Fragment {
         if (savedInstanceState != null) {
             selectedPage = savedInstanceState.getInt(KEY_SELECTED_PAGE);
         }
-
         mAdapter = new PageAdapter(getFragmentManager());
         mPager = (ViewPager) rootView.findViewById(R.id.container_view_pager);
         mPager.setAdapter(mAdapter);
         mPager.setCurrentItem(selectedPage);
-
         mPager.setPageTransformer(true, new DefaultTransformer());
-
-
-
         return rootView;
     }
 
