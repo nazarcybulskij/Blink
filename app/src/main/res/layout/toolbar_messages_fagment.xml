@@ -47,20 +47,20 @@
             >
 
             <RadioButton
-                android:id="@+id/one"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="NEARBY"
-                android:checked="true"
-                style="@style/RadioButton" />
-
-            <RadioButton
                 android:id="@+id/two"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="RECENT"
+                android:checked="true"
+                style="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="NEARBY"
                 style="@style/RadioButton" />
         </info.hoang8f.android.segmented.SegmentedGroup>
 

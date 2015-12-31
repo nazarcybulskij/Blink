@@ -207,7 +207,7 @@ public class NewMessageFragment extends AutoCompleteFragment {
         pQuery.whereEqualTo("license", plate);
         pQuery.whereEqualTo("deviceType", "android");
         pQuery.whereEqualTo("deviceType", "ios");
-        parsePush.sendMessageInBackground("someone mentions your saved license plate", pQuery);
+        parsePush.sendMessageInBackground(mTextMessage.getText().toString(), pQuery);
 
     }
     @OnClick(R.id.left_icon)

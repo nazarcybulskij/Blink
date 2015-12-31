@@ -135,6 +135,7 @@ public class NavigationDrawerSettingsFragment extends Fragment {
         ArrayList<String> children4 = new ArrayList<>();
         children1.add("My Posts");
         children1.add("My Comments");
+        children1.add("My Messages");
         children1.add("My License Plate #");
         groups.add(children1);
         children2.add("Share Blinkr");

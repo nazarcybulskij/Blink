@@ -120,7 +120,9 @@ public class MyPostFragment extends ListFragment {
                     public ParseQuery<Feed> create() {
                         ParseQuery<Feed> query = Feed.getQuery();
                         ParseUser user = ParseUser.getCurrentUser();
+//                        String license = user.getString("License");
                         query.whereEqualTo("fromUser", user);
+//                        query.whereEqualTo("License",license);
                         query.whereLessThanOrEqualTo("Reports", 2);
                         query.orderByDescending("createdAt");
                         query.setLimit(MainActivity.MAX_POST_SEARCH_RESULTS);

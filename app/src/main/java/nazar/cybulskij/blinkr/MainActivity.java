@@ -64,6 +64,7 @@ import nazar.cybulskij.blinkr.fragment.ContentFragment;
 import nazar.cybulskij.blinkr.fragment.LicenseFragment;
 import nazar.cybulskij.blinkr.fragment.MessagesListFragment;
 import nazar.cybulskij.blinkr.fragment.MyCommentFragment;
+import nazar.cybulskij.blinkr.fragment.MyMessagesFragment;
 import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
 import nazar.cybulskij.blinkr.fragment.RulesFragment;
@@ -287,16 +288,29 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         if (group == 0 && childr==0){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, MyPostFragment.newInstance(childr + 1),"mymessages")
                     .commit();
             stateDrawer = false;
             return;
         }
 
-
         if (group == 0 && childr==2){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.content_frame, MyMessagesFragment.newInstance(childr + 1),"mymessages")
+                    .commit();
+            stateDrawer = false;
+            return;
+        }
+
+
+
+        if (group == 0 && childr==3){
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, newInstance(),"license")
                     .commit();
             stateDrawer = false;
@@ -314,6 +328,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             }, 1000);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, newInstance(), "license")
                     .commit();
             stateDrawer = false;
@@ -323,6 +338,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         if (group == 2 && childr==0){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, AboutFragment.newInstance(),"about")
                     .commit();
             stateDrawer = false;
@@ -332,6 +348,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         if (group == 2 && childr==1){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, RulesFragment.newInstance(),"rules")
                     .commit();
             stateDrawer = false;
@@ -341,6 +358,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         if (group == 0 && childr==1){
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, MyCommentFragment.newInstance(childr + 1),"mycomments")
                     .commit();
             stateDrawer = false;
@@ -351,7 +369,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
             fragment.setArguments(args);
 
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,"content").commit();
+            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.content_frame, fragment,"content").commit();
             stateDrawer = false;
 
         }

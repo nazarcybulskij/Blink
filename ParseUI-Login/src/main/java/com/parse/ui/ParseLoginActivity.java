@@ -33,7 +33,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Window;
-
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 

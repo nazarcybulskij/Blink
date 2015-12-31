@@ -11,10 +11,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +20,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.pc.maskedtext.MaskedWatcher;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,7 +59,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
 
 
 
-    MessagesEnum state = MessagesEnum.NEABY;
+    MessagesEnum state = MessagesEnum.RECENT;
     private final String LIST_VIEW_INSTANCE_STATE_KEY = "LIST_VIEW_INSTANCE_STATE_KEY";
     Parcelable mListInstanceState;
 
@@ -266,7 +259,7 @@ public  class MessagesListFragment extends Fragment implements OnChangedLocation
                 };
 
 
-        if (mFeedAdapterNerby == null || mFeedAdapterRecent==null) {
+        if (mFeedAdapterNerby == null || mFeedAdapterRecent==null)  {
             mFeedAdapterNerby = new FeedAdapter(getActivity(), factorynerby);
             // Disable automatic loading when the adapter is attached to a view.
             mFeedAdapterNerby.setAutoload(false);
