@@ -25,6 +25,9 @@ import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,6 +60,7 @@ public class NewMessageFragment extends AutoCompleteFragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     private CharSequence currentString;
+    private ArrayList<String> devType = new ArrayList<>();
 
     @Bind(R.id.messegetext)
     LimitedEditText mTextMessage;
@@ -80,6 +84,8 @@ public class NewMessageFragment extends AutoCompleteFragment {
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
+            devType.add("android");
+            devType.add("ios");
         }
         // Select either the default item (0) or the last selected item.
     }
@@ -205,10 +211,8 @@ public class NewMessageFragment extends AutoCompleteFragment {
         ParsePush parsePush = new ParsePush();
         ParseQuery pQuery =  ParseInstallation.getCurrentInstallation().getQuery();
         pQuery.whereEqualTo("license", plate);
-        pQuery.whereEqualTo("deviceType", "android");
-        pQuery.whereEqualTo("deviceType", "ios");
+        pQuery.whereContainedIn("deviceType", devType);
         parsePush.sendMessageInBackground(mTextMessage.getText().toString(), pQuery);
-
     }
     @OnClick(R.id.left_icon)
     public void LeftIconClick() {

@@ -27,20 +27,13 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.res.Configuration;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import com.digits.sdk.android.Digits;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -52,10 +45,6 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseInstallation;
 import com.parse.SaveCallback;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 import de.greenrobot.event.EventBus;
 import icepick.Icepick;
 import nazar.cybulskij.blinkr.events.ReloadEvent;
@@ -69,7 +58,6 @@ import nazar.cybulskij.blinkr.fragment.MyPostFragment;
 import nazar.cybulskij.blinkr.fragment.NavigationDrawerSettingsFragment;
 import nazar.cybulskij.blinkr.fragment.RulesFragment;
 import nazar.cybulskij.blinkr.listener.OnChangedLocationListener;
-
 import icepick.Icicle;
 
 
@@ -228,10 +216,7 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         }else{
             closeDrawer();
         }
-
-
     }
-
 
     public  void openDrawer(){
         DrawerLayout drawer = ((DrawerLayout) findViewById(R.id.drawer_layout));
@@ -260,8 +245,13 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
         installation.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                makeAlert();
+                try {
+                    makeAlert();
+                }catch (Exception ea){
+                    Log.d("logOut", ea.toString());
+                }
             }
+
         });
     }
 
@@ -319,13 +309,11 @@ public class MainActivity extends FragmentActivity implements   NavigationDrawer
 
         if (group == 3 && childr == 0){
             logOut();
-            Digits.getSessionManager().clearActiveSession();
-            new Timer().schedule(new TimerTask() {
-                public void run() {
-                    Log.w("General", "This has been called one second later");
-                    cancel();
-                }
-            }, 1000);
+            try {
+                Digits.getSessionManager().clearActiveSession();
+            }catch (Exception e){
+                Log.d("clear session", e.toString());
+            }
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .addToBackStack(null)

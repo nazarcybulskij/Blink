@@ -18,7 +18,6 @@ repositories {
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     repositories {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
@@ -26,14 +25,12 @@ android {
         maven { url "https://clojars.org/repo/" }
 
     }
-
-
     defaultConfig {
         applicationId "nazar.cybulskij.blinkr"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName '1.2'
     }
     buildTypes {
         release {
@@ -41,21 +38,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
-
     defaultConfig {
         multiDexEnabled true
     }
-
 //    dexOptions {
 //        incremental true
 //        javaMaxHeapSize "4g"
 //    }
-
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -71,12 +69,12 @@ dependencies {
     compile 'info.hoang8f:android-segmented:1.0.6'
     compile 'io.realm:realm-android:0.82.2'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.quinny898.library.persistentsearch:library:1.1.0-SNAPSHOT'
-    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'de.greenrobot:eventbus:2.4.0+'
     compile 'com.cocosw:bottomsheet:1.+@aar'
+    compile 'me.grantland:autofittextview:0.2.+'
+    compile 'io.realm:realm-android:0.82.2'
     compile 'frankiesardo:icepick:3.0.3-SNAPSHOT'
     provided 'frankiesardo:icepick-processor:3.0.3-SNAPSHOT'
-    compile 'me.grantland:autofittextview:0.2.+'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
